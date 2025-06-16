@@ -3,6 +3,10 @@
 Notice:
 In this project there's the gleam workspace and also old typescript and javascript code used for testing and debugging.
 
+RUNNING THE CODE:
+
+To run the code, save your changes in the file_terminal gleam file after you're done with them. After that do run "node build/dev/javascript/file_terminal/file_terminal.mjs" run the command inside the quotations, don't include the quotations. Run the command from the file_terminal directory which is inside THE ROOT folder.
+
 SYNTAX:
 
 TESTING:
