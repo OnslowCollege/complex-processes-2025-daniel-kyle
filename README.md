@@ -1,47 +1,24 @@
-﻿# complex-processes-2025-daniel-kyle
+# file_terminal
 
-Notice:
-In this project there's the gleam workspace and also old typescript and javascript code used for testing and debugging.
+[![Package Version](https://img.shields.io/hexpm/v/file_terminal)](https://hex.pm/packages/file_terminal)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/file_terminal/)
 
-RUNNING THE CODE:
+```sh
+gleam add file_terminal@1
+```
+```gleam
+import file_terminal
 
-To run the code, save your changes in the file_terminal gleam file after you're done with them. After that do run "node build/dev/javascript/file_terminal/file_terminal.mjs" run the command inside the quotations, don't include the quotations. Run the command from the file_terminal directory which is inside THE ROOT folder.
+pub fn main() -> Nil {
+  // TODO: An example of the project in use
+}
+```
 
-SYNTAX:
+Further documentation can be found at <https://hexdocs.pm/file_terminal>.
 
-TESTING:
+## Development
 
-Every new component must be tested. E.g if a new feature is added like adding files, testing msut be done for it and put into a testing table.
-
-COMMIT MESSAGE STYLE:
-
-<One word descriptor> {short description}
-
-- One thing you did
-- Another thing
-- So on
-
-Now for an actual commit message where, lets say a UI bug was fixed and some other changes occured.
-
-Fix: UI bug
-
-- Changed click event so when the user spam clicks to create file, it doesn't create a whole bunch.
-- Made icons bigger so users can click icons easier.
-- Fixed a bug where clicking on icons did nothing.
-
-COMMENTS:
-
-Comments or other documentation need to be put before every:
-- while loop
-- for loop
-- class
-- struct
-- function
-- (optionally some if statements)
-  
-And the comments must describe:
-
-- what it does
-- how it works
-- any parameters
-- any returns
+```sh
+gleam run   # Run the project
+gleam test  # Run the tests
+```
