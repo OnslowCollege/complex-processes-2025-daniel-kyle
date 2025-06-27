@@ -1,5 +1,4 @@
 RUNNING THE CODE
 
-Do 'gleam build'
-Then 'gleam run'
+Do 'gleam run' in the terminal
 Don't include the ''
