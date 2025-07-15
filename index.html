@@ -2,9 +2,10 @@
 <html>
 
 <head>
-
+    <link rel="stylesheet" href="styles.css">
+    <script src="dist/terminal.js" defer></script>
+    
 </head>
-
 <body>
 <h1>Welcome to the file terminal</h1>
 <h2>Your commands are:</h2>
@@ -67,10 +68,15 @@
 
 </div>
 
-<form>
-    <label for="command">Enter command: </label><br>
-    <input type="text" id="command" name="command"><br>
+<form id="command">
+    <label >Enter command: </label><br>
+    <input type="text" name="command" ><br>
+    <input type="submit" value="Submit">
 </form>
+
+<ul id="contents">
+    
+</ul>
 
 </body>
 </html>
