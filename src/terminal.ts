@@ -1,6 +1,3 @@
-import * as readline from "readline";
-import { start } from "repl";
-
 function newElement(text: string) {
     let ul: HTMLElement = document.getElementById("contents")!; // Get the <ul>
     let li: HTMLElement = document.createElement("li");        // Create a new <li>
@@ -13,12 +10,6 @@ document.getElementById("command")!.onsubmit = function(event) {
     let commandInput: string = (document.querySelector("input[name='command']") as HTMLInputElement)!.value.trim();
     processCommand(commandInput);
 };
-
-// Create an interface for reading from stdin and writing to stdout.
-const readLine: readline.Interface = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-});
 
 // What seperates each file in the file path name.
 const itemDelimiter: string = "/";
@@ -328,9 +319,6 @@ function removeFolderFromFolder(folder: FolderNode) {
         eraseItemData(child)
     }
 }
-
-
-
 
 // Makes the current folder the starting folder.
 let currentFolder: FolderNode = startingFolder;
@@ -727,15 +715,10 @@ function processCommand(command: string) {
             
             break;
 
-        case "exit" :
-        case "quit" :
-        case    "q" :
-        case    "e" :
-            console.log("Exiting the program.")
-            break;
         default:
             console.log("You have entered an invalid command")
             break;
+    
     }
 }
         
