@@ -22,11 +22,11 @@ export function hello_world_test() {
       {
         kind: "binary_operator",
         operator: "==",
-        left: { kind: "expression", value: greeting, start: 202, end: 210 },
-        right: { kind: "literal", value: $, start: 214, end: 227 },
-        start: 195,
-        end: 227,
-        expression_start: 202
+        left: { kind: "expression", value: greeting, start: 213, end: 221 },
+        right: { kind: "literal", value: $, start: 225, end: 238 },
+        start: 206,
+        end: 238,
+        expression_start: 213
       }
     )
   }
