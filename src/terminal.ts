@@ -323,12 +323,14 @@ function removeFolderFromFolder(folder: FolderNode) {
 // Makes the current folder the starting folder.
 let currentFolder: FolderNode = startingFolder;
 
-    // The command with the maximum amount of argments.
-    const maxArguments: number = 3;
+// The command with the maximum amount of argments.
+const maxArguments: number = 3;
 
-    // Displays the path of the current folder you are in.
-    // Prompts the user for a command
+// Displays the path of the current folder you are in.
+// Prompts the user for a command
 
+// Displays the current folder name in the UI.
+document.getElementById("directory")!.innerHTML = currentFolder.name
 
 
 function processCommand(command: string) {
@@ -720,5 +722,6 @@ function processCommand(command: string) {
             break;
     
     }
+    document.getElementById("directory")!.innerHTML = currentFolder.name
 }
         
