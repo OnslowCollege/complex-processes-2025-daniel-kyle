@@ -1811,10 +1811,10 @@ function log_random() {
       "Pattern match failed, no pattern matched the value.",
       {
         value: $,
-        start: 55245,
-        end: 55316,
-        pattern_start: 55256,
-        pattern_end: 55266
+        start: 57607,
+        end: 57678,
+        pattern_start: 57618,
+        pattern_end: 57628
       }
     )
   }
@@ -1842,10 +1842,10 @@ function sample_loop(loop$list, loop$reservoir, loop$k, loop$index, loop$w) {
           "Pattern match failed, no pattern matched the value.",
           {
             value: $,
-            start: 54750,
-            end: 54803,
-            pattern_start: 54761,
-            pattern_end: 54775
+            start: 57094,
+            end: 57147,
+            pattern_start: 57105,
+            pattern_end: 57119
           }
         )
       }
