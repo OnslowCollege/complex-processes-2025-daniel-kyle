@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import gleam/io
 import gleam/string
 pub fn is_capital_letter(char: String) -> Bool {
@@ -8,3 +9,6 @@ pub fn is_capital_letter(char: String) -> Bool {
 pub fn main() {
   io.println(is_capital_letter("A")) // Should print true  
 }
+=======
+
+>>>>>>> 4b930057510e61e180a8df12510c46a68b830766
