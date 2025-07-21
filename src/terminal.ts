@@ -1,3 +1,4 @@
+// Don't make this gleam code 
 function newElement(text: string) {
     let ul: HTMLElement = document.getElementById("contents")!; // Get the <ul>
     let li: HTMLElement = document.createElement("li");        // Create a new <li>
@@ -5,11 +6,15 @@ function newElement(text: string) {
     ul.appendChild(li);
 }
 
+
+// Don't make this gleam code 
 document.getElementById("command")!.onsubmit = function(event) {
     event.preventDefault(); // Prevent the form from submitting
     let commandInput: string = (document.querySelector("input[name='command']") as HTMLInputElement)!.value.trim();
     processCommand(commandInput);
 };
+
+// No need to remake the constants in gleam.
 
 // What seperates each file in the file path name.
 const itemDelimiter: string = "/";
@@ -44,6 +49,7 @@ const maxfileSize: number = 4194304;
 // Command for cd that allows the user to move up a folder.
 const moveUpCommand: string = "..";
 
+// Make this a gleam class if you can
 /**
  * Basic structure for files and folders.
  */
@@ -77,7 +83,7 @@ abstract class ItemNode {
         (totalSize, child) => totalSize + child.size, 0)}
 }
     
-
+// Make this a gleam class if you can
 /**
  * Represents a folder.
  */
@@ -93,6 +99,7 @@ class FolderNode extends ItemNode {
     }
 }
 
+// Make this a gleam class if you can
 class FileNode extends ItemNode {
 
     // The baseSize of the file.
@@ -119,6 +126,7 @@ class FileNode extends ItemNode {
     }
 }
 
+// No need to make this in gleam.
 // Inisitlisations of folders.
 
 const home = new FolderNode("home");
@@ -173,6 +181,8 @@ const startingFolder: FolderNode = home
 // Functions
 // They get hoised to the top of the code anyways.
 
+
+// Make this a gleam function
 /**
  * 
  * @param slicedCommand - An array of the command arguments.
@@ -215,6 +225,7 @@ function removeItemFromFolder (
 
 }
 
+// Make this a gleam function
 /**
  * 
  * @param folder - The folder who's children will be displayed. 
@@ -250,6 +261,8 @@ function displayParents (folder: FolderNode) {
     newElement(`\nTOTAL: ${folder.size - folder.baseSize} KB`)
     
 }
+
+// Make this a gleam function
 /**
  * 
  * @param searchedFolder - Current folder being searched.
@@ -271,6 +284,7 @@ function getItemFromFolder(searchedFolder: FolderNode, splitPath: string[]): Fol
     return searchedFolder;
 }
 
+// Make this a gleam function
 /**
  * 
  * @param text The text being checked.
@@ -280,7 +294,21 @@ function getItemFromFolder(searchedFolder: FolderNode, splitPath: string[]): Fol
 function isLowerCaseAlphaNumberic(text: string): boolean {
     // Uses RegEx to check if the text only contains lowercase letters a-z and numbers 0-9.
     // Returns true if the text contains only lowercase letters and numbers and false if not.
-    return /^[a-z0-9]+$/.test(text);
+
+
+    const lettersNumbers = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
+    "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+
+    for (let character of text) {
+        // Checks if the character is not a letter or number.
+        if (!lettersNumbers.includes(character)) {
+            return false;
+        }
+    }
+
+    return true;
+
+
 }
 
 /**
@@ -309,6 +337,7 @@ function eraseItemData(item: ItemNode) {
     
 }
 
+// Turn this into gleam.
 /**
  * 
  * @param folder - The folder who's contents are being removed.
@@ -332,7 +361,7 @@ const maxArguments: number = 3;
 // Displays the current folder name in the UI.
 document.getElementById("directory")!.innerHTML = currentFolder.name
 
-
+// Don't make this function a cleam function
 function processCommand(command: string) {
     const slicedCommand = command.split(commandDelimiter);
 
@@ -722,6 +751,8 @@ function processCommand(command: string) {
             break;
     
     }
-    document.getElementById("directory")!.innerHTML = currentFolder.name
+
+    document.getElementById("directory")!.innerHTML = currentFolder.name;
+
 }
         
