@@ -1,15 +1,21 @@
 "use strict";
+// Don't make this gleam code 
+
+import { is_valid } from "./build/dev/javascript/file_terminal/file_terminal.mjs"; 
+
 function newElement(text) {
     let ul = document.getElementById("contents"); // Get the <ul>
     let li = document.createElement("li"); // Create a new <li>
     li.textContent = text; // Set its text
     ul.appendChild(li);
 }
+// Don't make this gleam code 
 document.getElementById("command").onsubmit = function (event) {
     event.preventDefault(); // Prevent the form from submitting
     let commandInput = document.querySelector("input[name='command']").value.trim();
     processCommand(commandInput);
 };
+// No need to remake the constants in gleam.
 // What seperates each file in the file path name.
 const itemDelimiter = "/";
 // What seperates each command in the full command.
@@ -32,6 +38,7 @@ const minfileSize = 1;
 const maxfileSize = 4194304;
 // Command for cd that allows the user to move up a folder.
 const moveUpCommand = "..";
+// Make this a gleam class if you can
 /**
  * Basic structure for files and folders.
  */
@@ -62,6 +69,7 @@ class ItemNode {
         return this.baseSize + this.children.reduce((totalSize, child) => totalSize + child.size, 0);
     }
 }
+// Make this a gleam class if you can
 /**
  * Represents a folder.
  */
@@ -76,6 +84,7 @@ class FolderNode extends ItemNode {
         this.parentFolder = parentFolder;
     }
 }
+// Make this a gleam class if you can
 class FileNode extends ItemNode {
     name;
     parentFolder;
@@ -103,6 +112,7 @@ class FileNode extends ItemNode {
         return this.fileSize;
     }
 }
+// No need to make this in gleam.
 // Inisitlisations of folders.
 const home = new FolderNode("home");
 const documents = new FolderNode("documents", home);
@@ -131,6 +141,7 @@ const mp310 = new FileNode("10.mp3", music);
 const startingFolder = home;
 // Functions
 // They get hoised to the top of the code anyways.
+// Make this a gleam function
 /**
  *
  * @param slicedCommand - An array of the command arguments.
@@ -163,6 +174,7 @@ function removeItemFromFolder(slicedCommand, folder, isFile) {
         console.log(`${itemType} does not exist.`);
     }
 }
+// Make this a gleam function
 /**
  *
  * @param folder - The folder who's children will be displayed.
@@ -187,6 +199,7 @@ function displayParents(folder) {
     // Displays the total size of the contained files and folders in KB.
     newElement(`\nTOTAL: ${folder.size - folder.baseSize} KB`);
 }
+// Make this a gleam function
 /**
  *
  * @param searchedFolder - Current folder being searched.
@@ -207,6 +220,7 @@ function getItemFromFolder(searchedFolder, splitPath) {
     }
     return searchedFolder;
 }
+// Make this a gleam function
 /**
  *
  * @param text The text being checked.
@@ -216,7 +230,15 @@ function getItemFromFolder(searchedFolder, splitPath) {
 function isLowerCaseAlphaNumberic(text) {
     // Uses RegEx to check if the text only contains lowercase letters a-z and numbers 0-9.
     // Returns true if the text contains only lowercase letters and numbers and false if not.
-    return /^[a-z0-9]+$/.test(text);
+    const lettersNumbers = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
+        "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+    for (let character of text) {
+        // Checks if the character is not a letter or number.
+        if (!lettersNumbers.includes(character)) {
+            return false;
+        }
+    }
+    return true;
 }
 /**
  *
@@ -239,6 +261,7 @@ function eraseItemData(item) {
         item.parentFolder = null;
     }
 }
+// Turn this into gleam.
 /**
  *
  * @param folder - The folder who's contents are being removed.
@@ -255,6 +278,9 @@ let currentFolder = startingFolder;
 const maxArguments = 3;
 // Displays the path of the current folder you are in.
 // Prompts the user for a command
+// Displays the current folder name in the UI.
+document.getElementById("directory").innerHTML = currentFolder.name;
+// Don't make this function a cleam function
 function processCommand(command) {
     const slicedCommand = command.split(commandDelimiter);
     // Picks the starting command from the splitted command.
@@ -333,7 +359,7 @@ function processCommand(command) {
                 break;
             }
             // Checks if the file doesn't contain only lowercase letters and numbers.
-            if (!isLowerCaseAlphaNumberic(fileName) || !isLowerCaseAlphaNumberic(fileExtension)) {
+            if (!is_valid(fileName) || !is_valid(fileExtension)) {
                 console.log("Please enter a file name and extension containing only letters and numbers.");
                 break;
             }
@@ -416,7 +442,7 @@ function processCommand(command) {
             }
             ;
             // Checks if the folder doesn't contain only lowercase letters and numbers.
-            if (!isLowerCaseAlphaNumberic(folderName)) {
+            if (!is_valid(folderName)) {
                 console.log("Please enter a folder name containing only letters and numbers.");
                 break;
             }
@@ -535,4 +561,5 @@ function processCommand(command) {
             console.log("You have entered an invalid command");
             break;
     }
+    document.getElementById("directory").innerHTML = currentFolder.name;
 }

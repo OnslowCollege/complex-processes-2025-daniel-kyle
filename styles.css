@@ -1,3 +1,14 @@
 .command {
     border-radius: 1cm;
 }
+
+@font-face {
+  font-family: 'Helvetica'; /* Choose a name for your font */
+  src: url('fonts/Helvetica.ttf') format('ttf'); /* Replace with your font file path and format */
+}
+
+body {
+    font-family: 'Helvetica', sans-serif; /* Use the font you defined */
+    background-color: #f0f0f0; /* Light background for better contrast */
+    color: #333; /* Dark text for readability */
+}
