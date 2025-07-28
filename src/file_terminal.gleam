@@ -1,14 +1,13 @@
-<<<<<<< HEAD
-import gleam/io
 import gleam/string
-pub fn is_capital_letter(char: String) -> Bool {
-    let uppercase_char = string.uppercase(char)
-    string.contains(uppercase_char, char)
-}
+import gleam/list
 
 pub fn main() {
-  io.println(is_capital_letter("A")) // Should print true  
+  echo is_lowercase_and_numbers("and") // true
 }
-=======
 
->>>>>>> 4b930057510e61e180a8df12510c46a68b830766
+fn is_lowercase_and_numbers(text: String) -> Bool {
+  string.all(text, fn(char) {
+    (char >= "a" && char <= "z") || (char >= "0" && char <= "9")
+  })
+}
+
