@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import * as $stdlib$dict from "../gleam_stdlib/dict.mjs";
 import * as $list from "../gleam_stdlib/gleam/list.mjs";
 import * as $string from "../gleam_stdlib/gleam/string.mjs";
@@ -74,6 +75,18 @@ export function is_valid(text) {
 
 export function main() {
   return echo(is_valid("hello "), "src\\file_terminal.gleam", 5);
+=======
+import * as $io from "../gleam_stdlib/gleam/io.mjs";
+import * as $string from "../gleam_stdlib/gleam/string.mjs";
+
+export function is_capital_letter(char) {
+  let uppercase_char = $string.uppercase(char);
+  return $string.contains(uppercase_char, char);
+}
+
+export function main() {
+  return $io.println("A");
+>>>>>>> 1ba081551ae260650de913fd8b32592735b0fe3a
 }
 
 function echo(value, file, line) {
