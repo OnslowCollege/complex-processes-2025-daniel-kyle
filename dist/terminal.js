@@ -1,7 +1,7 @@
 "use strict";
 // Don't make this gleam code 
 
-import { is_valid } from "./build/dev/javascript/file_terminal/file_terminal.mjs"; 
+// import { is_valid } from "./build/dev/javascript/file_terminal/file_terminal.mjs"; 
 
 function newElement(text) {
     let ul = document.getElementById("contents"); // Get the <ul>
@@ -359,7 +359,7 @@ function processCommand(command) {
                 break;
             }
             // Checks if the file doesn't contain only lowercase letters and numbers.
-            if (!is_valid(fileName) || !is_valid(fileExtension)) {
+            if (!isLowerCaseAlphaNumberic(fileName) || !isLowerCaseAlphaNumberic(fileExtension)) {
                 console.log("Please enter a file name and extension containing only letters and numbers.");
                 break;
             }
