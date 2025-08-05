@@ -10,9 +10,9 @@ function newElement(text: string) {
 
 
 // Don't make this gleam code 
-document.getElementById("command")!.onsubmit = function(event) {
+document.getElementById("command-input")!.onsubmit = function(event) {
     event.preventDefault(); // Prevent the form from submitting
-    let commandInput: string = (document.querySelector("input[name='command']") as HTMLInputElement)!.value.trim();
+    let commandInput: string = (document.querySelector("input[name='command-input']") as HTMLInputElement)!.value.trim();
     processCommand(commandInput);
 };
 

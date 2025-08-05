@@ -1,4 +1,4 @@
-.command {
+#command {
     border-radius: 1cm;
 }
 
@@ -9,6 +9,15 @@
 
 body {
     font-family: 'Helvetica', sans-serif; /* Use the font you defined */
-    background-color: #f0f0f0; /* Light background for better contrast */
+    background-color: #FFF8E8; /* Light background for better contrast */
     color: #333; /* Dark text for readability */
 }
+
+.command-contents {
+    background-color: #DEE8CE; /* White background for command sections */
+    border: 1px solid #ccc; /* Light border for separation */
+    border-radius: 5px; /* Rounded corners for a modern look */
+    padding: 20px; /* Spacing inside the command section */
+    margin: 10px 0; /* Spacing between command sections */
+}
+

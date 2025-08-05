@@ -7,8 +7,8 @@
     
 </head>
 <body>
-<h1>Welcome to the file terminal</h1>
-<h2>Your commands are:</h2>
+<h1 id="main-title">Welcome to the file terminal</h1>
+<h2 id="command-title">Your commands are:</h2>
 <!--
 - 'ls' displayed all the files and folders in the folder you're in
 - 'touch' <fileName> <fileSize> creates a file with a specified size in KB 
@@ -24,43 +24,43 @@
 -  e.g. (cd ${moveUpCommand}
 \n- 'exit' or 'quit' or 'q' quit the program\n
 -->
-<div>
-    <div>
-        <h3>ls</h3>
-        <p>
-- 'ls' displayed all the files and folders in the folder you're in</p>
+<div id="commands">
+    <div class="command-contents">
+        <h3 class="command">ls</h3>
+        <p class="command-description">
+            - 'ls' displays all the files and folders in the folder you're in</p>
     </div>
 
-    <div>
-        <h3>touch</h3>
-        <p>- 'touch' <fileName> <fileSize> creates a file with a specified size in KB (defualt size is 1KB if left unspecified. )
+    <div class="command-contents">
+        <h3 class="command">touch</h3>
+        <p class="command-description">- 'touch' filename filesize creates a file with a specified size in KB (defualt size is 1KB if left unspecified. )
 -  File and folder names must be a minimum of 1 and maximum of 12 characters.
 -  Files also need a '.' followed by a 3 character extension.
 </p>
     </div>
 
-    <div>
-        <h3>mkdir</h3>
-        <p>- 'mkdir' <folderName> creates a new folder in the current directory or a specified path
+    <div class="command-contents">
+        <h3 class="command">mkdir</h3>
+        <p class="command-description">- 'mkdir' foldername creates a new folder in the current directory or a specified path
 (the full path is used for the name if you want to create a file in another directory)
 </p>
     </div>
 
-    <div>
-        <h3>rm</h3>
-        <p>- 'rm' <fileName> deletes a file in the current folder.
+    <div class="command-contents">
+        <h3 class="command">rm</h3>
+        <p class="command-description">- 'rm' filename deletes a file in the current folder.
 </p>
     </div>
 
-    <div>
-        <h3>rmdir</h3>
-        <p>- 'rmdir' <folderName> deletes a folder in the current folder.
+    <div class="command-contents">
+        <h3 class="command">rmdir</h3>
+        <p class="command-description">- 'rmdir' foldername deletes a folder in the current folder.
 </p>
     </div>
 
-    <div>
-        <h3>cd</h3>
-        <p>- 'cd' <folderName> changes to a folder in the current folder.
+    <div class="command-contents">
+        <h3 class="command">cd</h3>
+        <p class="command-description">- 'cd' foldername changes to a folder in the current folder.
 -  use ''..' as the folderName to change out of the current folder with cd.
 -  e.g. (cd ..)
 </p>
@@ -68,9 +68,9 @@
 
 </div>
 
-<form id="command">
+<form id="command-input">
     <label >Enter command: </label><br>
-    <input type="text" name="command" ><br>
+    <input type="text" name="command-input" ><br>
     <input type="submit" value="Submit">
 </form>
 
