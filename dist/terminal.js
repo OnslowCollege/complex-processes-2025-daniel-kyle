@@ -9,12 +9,26 @@ function newElement(text) {
     li.textContent = text; // Set its text
     ul.appendChild(li);
 }
+
+const submitAudio = new Audio();
+submitAudio.src = "https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"
+
+
 // Don't make this gleam code 
-document.getElementById("command").onsubmit = function (event) {
-    event.preventDefault(); // Prevent the form from submitting
-    let commandInput = document.querySelector("input[name='command']").value.trim();
-    processCommand(commandInput);
-};
+const commandForm = document.getElementById("command-input");
+if (commandForm) {
+    commandForm.onsubmit = function (event) {
+        event.preventDefault(); // Prevent the form from submitting
+        let commandInput = document.querySelector("input[name='command-input']").value.trim();
+        processCommand(commandInput);
+
+        // Play a sound on submit
+        
+        submitAudio.play()
+
+    };
+}
+
 // No need to remake the constants in gleam.
 // What seperates each file in the file path name.
 const itemDelimiter = "/";
@@ -559,6 +573,8 @@ function processCommand(command) {
             break;
         default:
             console.log("You have entered an invalid command");
+            // Play a sound on submit
+            
             break;
     }
     document.getElementById("directory").innerHTML = currentFolder.name;
