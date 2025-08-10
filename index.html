@@ -8,6 +8,31 @@
 </head>
 <body>
 <h1 id="main-title">Welcome to the file terminal</h1>
+
+<div id="overview">
+        <h3 id="overview-title">Overview</h3>
+        
+        <p class="command-description">This program is a simple concept program for an improved file system that
+            runs on the web with virtual files. This is a simple program with a number of commands you can use for
+            adding and removing files and folders as wall as navigating the file system. Below is a glossary of terms
+            to help you and some advice on how to use the program if you're stuck.
+        </p>
+</div>
+
+<div id="help">
+
+        <ul id="glossary">
+            <li>Directory - Folder</li>
+            <li>Root directory - folder where everything is stored</li>
+        </ul>
+
+        <h3 id="help-title">Help</h3>
+
+        <p class="help-description">
+            If you're stuck you can always enter 'cd /home' in the command box.
+        </p>
+</div>
+
 <h2 id="command-title">Your commands are:</h2>
 <!--
 - 'ls' displayed all the files and folders in the folder you're in
@@ -24,7 +49,11 @@
 -  e.g. (cd ${moveUpCommand}
 \n- 'exit' or 'quit' or 'q' quit the program\n
 -->
+
+
+
 <div id="commands">
+
     <div class="command-contents">
         <h3 class="command">ls</h3>
         <p class="command-description">
@@ -69,13 +98,12 @@
 </div>
 
 <form id="command-input">
-    <label >Enter command: </label><br>
+    <label >Enter command in the command box:</label><br>
     <input type="text" name="command-input" ><br>
     <input type="submit" value="Submit">
 </form>
 
-<h2>You are in this directory:</h2>
-<p id="directory"></p>
+<h2>You're currently in the <span id="directory"></span> directory</h2>
 <ul id="contents">
     
 </ul>

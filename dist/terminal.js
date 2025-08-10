@@ -10,8 +10,11 @@ function newElement(text) {
     ul.appendChild(li);
 }
 
-const submitAudio = new Audio();
-submitAudio.src = "https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"
+const successAudio = new Audio();
+successAudio.src = "http://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/pause.wav"; // Path to the sound file
+
+const errorAudio = new Audio();
+errorAudio.src = "http://commondatastorage.googleapis.com/codeskulptor-assets/jump.ogg"
 
 
 // Don't make this gleam code 
@@ -21,10 +24,6 @@ if (commandForm) {
         event.preventDefault(); // Prevent the form from submitting
         let commandInput = document.querySelector("input[name='command-input']").value.trim();
         processCommand(commandInput);
-
-        // Play a sound on submit
-        
-        submitAudio.play()
 
     };
 }
@@ -193,7 +192,7 @@ function removeItemFromFolder(slicedCommand, folder, isFile) {
  *
  * @param folder - The folder who's children will be displayed.
  */
-function displayParents(folder) {
+function displayChildren(folder) {
     // The default number of spaces betwen the file/folder name and it's details.
     const defaultSpaces = 25;
     // The spacing characters seperating the file/folder name and it's details.
@@ -211,7 +210,7 @@ function displayParents(folder) {
         newElement(`/${child.name}${spacing}(${prefix} - ${child.size} KB)`);
     }
     // Displays the total size of the contained files and folders in KB.
-    newElement(`\nTOTAL: ${folder.size - folder.baseSize} KB`);
+    newElement(`\nTotal folder size: ${folder.size - folder.baseSize} KB`);
 }
 // Make this a gleam function
 /**
@@ -294,6 +293,10 @@ const maxArguments = 3;
 // Prompts the user for a command
 // Displays the current folder name in the UI.
 document.getElementById("directory").innerHTML = currentFolder.name;
+
+// Displays the folders and files inside the current folder.
+displayChildren(currentFolder);
+
 // Don't make this function a cleam function
 function processCommand(command) {
     const slicedCommand = command.split(commandDelimiter);
@@ -303,16 +306,19 @@ function processCommand(command) {
         case "ls":
             if (command != "ls") {
                 console.log("Please only enter the ls command.");
+                errorAudio.play()
                 break;
             }
             ;
-            displayParents(currentFolder);
+            displayChildren(currentFolder);
+            successAudio.play()
             break;
         case "touch":
             // The minimum and maximum command lengths for the touch command
             const validTouchLengths = [2, 3];
             if (!validTouchLengths.includes(slicedCommand.length)) {
                 console.log("Please enter the command with the appropriate arguments.");
+                errorAudio.play()
                 break;
             }
             ;
@@ -343,11 +349,13 @@ function processCommand(command) {
             // Tells the user the file doesn't exist
             if (fullFileName === undefined) {
                 console.log("File name doesn't exist.");
+                errorAudio.play()
                 break;
             }
             // Checks if the target folder is undefined.
             if (targetTouchFolder === undefined) {
                 console.log("Path doesn't exist.");
+                errorAudio.play()
                 break;
             }
             // Finds the number of extension delimiters by removing them from the file name.
@@ -358,6 +366,7 @@ function processCommand(command) {
             // Tells the user to enter a valid file name.
             if (delimiterCount != 1) {
                 console.log(`Please enter one '${extensionDelimiter}' and an extension.`);
+                errorAudio.play()
                 break;
             }
             ;
@@ -370,28 +379,33 @@ function processCommand(command) {
             // Checks if the file name and extension are valid lengths.
             if (fullFileName.length > maxItemNameLength || fileExtension.length != extensionNameLength) {
                 console.log("Please enter a file name with a valid length.");
+                errorAudio.play()
                 break;
             }
             // Checks if the file doesn't contain only lowercase letters and numbers.
             if (!isLowerCaseAlphaNumberic(fileName) || !isLowerCaseAlphaNumberic(fileExtension)) {
                 console.log("Please enter a file name and extension containing only letters and numbers.");
+                errorAudio.play()
                 break;
             }
             // Checks if the file size is a number.
             if (Number.isNaN(fileSize)) {
                 console.log("Please enter a number for the file size.");
+                errorAudio.play()
                 break;
             }
             // Checks if the file size is not within the maximum and minimum amounts.
             if (Number(fileSize) < minfileSize || Number(fileSize) > maxfileSize) {
                 console.log("The file size is not valid.");
                 console.log(`Please enter a fileSize between ${minfileSize} KB and ${maxfileSize} KB.`);
+                errorAudio.play()
                 break;
             }
             // Checks if there exists a file with the same name and tells the user to enter another file name.
             if (isNameInFolder(targetTouchFolder, fullFileName)) {
                 console.log("A file with the same name already exists in this folder");
                 console.log("please enter a different name.");
+                errorAudio.play()
                 break;
             }
             ;
@@ -402,18 +416,21 @@ function processCommand(command) {
             ;
             // Creates the new file.
             new FileNode(fullFileName, targetTouchFolder, Number(fileSize));
+            successAudio.play()
             break;
         case "mkdir":
             // The minimum and maximum command lengths for the mkdir command.
             const validMkdirLengths = [2];
             if (!validMkdirLengths.includes(slicedCommand.length)) {
                 console.log("Please enter the command with the appropriate arguments.");
+                errorAudio.play()
                 break;
             }
             let targetMkdirFolder;
             let splitMkdirPath = slicedCommand[1].split(itemDelimiter);
             if (!validMkdirLengths.includes(slicedCommand.length)) {
                 console.log("Please enter the command with the appropriate arguments.");
+                errorAudio.play()
                 break;
             }
             // Gets the folder name of the folder from the command.
@@ -437,31 +454,37 @@ function processCommand(command) {
             // Checks if the foldername is undefined.
             if (folderName === undefined) {
                 console.log("Folder name doesn't exist.");
+                errorAudio.play()
                 break;
             }
             if (targetMkdirFolder === undefined) {
                 console.log("Folder doesn't exist.");
+                errorAudio.play()
                 break;
             }
             // Checks if the name of the folder is a valid length.
             if (folderName.length < minItemNameLength || folderName.length > maxItemNameLength) {
                 console.log("Please enter a folder name between 1 and 12 characters.");
+                errorAudio.play()
                 break;
             }
             // Checks if there exists a folder with the same name and tells the user to enter another folder name.
             if (isNameInFolder(targetMkdirFolder, folderName)) {
                 console.log("A file with the same name already exists in this folder");
                 console.log("please enter a different name.");
+                errorAudio.play()
                 break;
             }
             ;
             // Checks if the folder doesn't contain only lowercase letters and numbers.
             if (!is_valid(folderName)) {
                 console.log("Please enter a folder name containing only letters and numbers.");
+                errorAudio.play()
                 break;
             }
             // Creates a new folder inside the parent folder.
             new FolderNode(folderName, targetMkdirFolder);
+            successAudio.play()
             break;
         case "rm":
             // The minimum and maximum command lengths for the rm command
@@ -470,6 +493,7 @@ function processCommand(command) {
             let splitRmPath = slicedCommand[1].split(itemDelimiter);
             if (!validRmLengths.includes(slicedCommand.length)) {
                 console.log("Please enter the command with the appropriate arguments.");
+                errorAudio.play()
                 break;
             }
             // Removes the empty character element if found.
@@ -486,6 +510,7 @@ function processCommand(command) {
                 targetRmFolder = currentFolder;
                 removeItemFromFolder(slicedCommand, targetRmFolder, true);
             }
+            successAudio.play()
             break;
         case "rmdir":
             // The minimum and maximum command lengths for the rm command
@@ -493,6 +518,7 @@ function processCommand(command) {
             let targetRmdirFolder;
             if (!validRmdirLengths.includes(slicedCommand.length)) {
                 console.log("Please enter the command with the appropriate arguments.");
+                errorAudio.play()
                 break;
             }
             let splitRmdirPath = slicedCommand[1].split(itemDelimiter);
@@ -518,15 +544,18 @@ function processCommand(command) {
             // Checks if the target folder doesn't exist.
             if (!targetRmdirFolder) {
                 console.log("Folder doesn't exist.");
+                errorAudio.play()
                 break;
             }
             removeFolderFromFolder(targetRmdirFolder);
             eraseItemData(targetRmdirFolder);
+            successAudio.play()
             break;
         case "cd":
             const validCdlength = [2];
             if (!validCdlength.includes(slicedCommand.length)) {
                 console.log("Please enter the command with the appropriate arguments.");
+                errorAudio.play()
                 break;
             }
             const folderPath = slicedCommand[1];
@@ -535,10 +564,13 @@ function processCommand(command) {
                 // Before moving up folders.
                 if (currentFolder.parentFolder) {
                     currentFolder = currentFolder.parentFolder;
+                    successAudio.play()
                 }
                 else {
                     console.log("This is the root folder and cannot be moved up.");
+                    errorAudio.play()
                 }
+                
                 break;
             }
             // Splits the path entered into an array of folder names.
@@ -566,16 +598,22 @@ function processCommand(command) {
             // Checks if the target folder is undefined.
             if (targetFolder === undefined) {
                 console.log("Folder not found.");
+                errorAudio.play()
                 break;
             }
             // Sets the targetFolder to a FolderNode as we've checked it's not undefined.
             currentFolder = targetFolder;
+            successAudio.play()
             break;
         default:
-            console.log("You have entered an invalid command");
-            // Play a sound on submit
+            console.log("You have entered an invalid command")
+            // Play a sound on error.
+            errorAudio.play()
             
             break;
+
+        
     }
+    displayChildren(currentFolder);
     document.getElementById("directory").innerHTML = currentFolder.name;
 }
