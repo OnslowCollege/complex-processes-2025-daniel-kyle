@@ -1,7 +1,6 @@
 import gleam/list
 import gleam/string
 
-
 pub fn is_valid(text: String) -> Bool {
   let char_delimiter = ""
   let chars = [
@@ -31,4 +30,3 @@ pub fn main() {
   let result = is_valid(text)
   echo result
 }
-

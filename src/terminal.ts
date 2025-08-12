@@ -1,5 +1,4 @@
 
-
 // Don't make this gleam code 
 function newElement(text: string) {
     let ul: HTMLElement = document.getElementById("contents")!; // Get the <ul>
