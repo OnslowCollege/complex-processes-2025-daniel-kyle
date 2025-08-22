@@ -24,3 +24,5 @@ const jsonData = JSON.stringify(myData, null, 2); // null and 2 for pretty-print
 
 
 fs.writeFile(fileSrc, myFile, writtenTo);
+
+console.log(system.json)

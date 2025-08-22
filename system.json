@@ -1,18 +1,21 @@
 {
   "name": "home",
   "baseSize": 5,
+  "isFile": false,
   "children" : [
 
     {
     "name": "documents",
     "baseSize": 5,
+    "isFile": false,
     "children" : []
     },
 
     {
     "name": "downloads",
     "baseSize": 5,
+    "isFile": false,
     "children" : []
     }
-]
+  ]
 }

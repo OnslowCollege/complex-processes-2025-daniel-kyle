@@ -1,40 +1,72 @@
-import gleam/list
-import gleam/string
+// import gleam/int
+// import gleam/io
+// import gleam/list
+// import gleam/string
+// import validation
+import json_utils
 
-// Checks if the given text contains only lowercase letters and digits
-pub fn is_valid(text: String) -> Bool {
-  // Delimiter for splitting the string into characters (empty string splits into chars)
-  let char_delimiter = ""
-  // List of allowed characters: lowercase letters and digits
-  let chars = [
-    "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o",
-    "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3",
-    "4", "5", "6", "7", "8", "9",
-  ]
+// fn ls() {
+//   echo "you just ls"
+// }
 
-  // Split the input text into individual characters
-  let text_chars = string.split(text, char_delimiter)
+// fn touch(file_name, file_size) {
+//   echo "you just touch"
+// }
 
-  // Map each character to True if it's allowed, False otherwise
-  let bool_list =
-    list.map(text_chars, fn(char) {
-      case list.find(chars, fn(x) { x == char }) {
-        Ok(_char) -> True
-        Error(_char) -> False
-      }
-    })
+// fn mkdir(folder_name) {
+//   echo "you just mkdir"
+// }
 
-  // If any character is not allowed, return False; otherwise, return True
-  case list.find(bool_list, fn(x) { x == False }) {
-    Ok(_bool) -> False
-    Error(_bool) -> True
-  }
-}
+// fn rm(file_name) {
+//   echo "you just rm"
+// }
 
-// Entry point for the program
+// fn rmdir(folder_name) {
+//   echo "you just rmdir"
+// }
+
+// fn cd(folder) {
+//   echo "you just cd"
+// }
+
+// fn get_element(index, list) {
+//   let new_list = list.drop(list, index)
+//   case list.first(new_list) {
+//     Ok(element) -> element
+//     Error(_) -> ""
+//   }
+// }
+
+// pub fn process_command(command: String) {
+//   let sliced = string.split(command, " ")
+//   let stripped = list.filter(sliced, fn(x) { x != "" })
+//   let first: String = get_element(0, stripped)
+//   let second: String = get_element(1, stripped)
+//   let third: String = get_element(2, stripped)
+
+//   case first {
+//     "ls" -> ls()
+//     //0
+//     "touch" -> touch(second, third)
+//     //2
+//     "mkdir" -> mkdir(second)
+//     //1
+//     "rm" -> rm(second)
+//     //1
+//     "rmdir" -> rmdir(second)
+//     //1
+//     "cd" -> cd(second)
+//     //1
+//     _ -> ""
+//   }
+// }
+
+// pub fn main() {
+//   process_command("hello")
+// }
+// // they each need a certain amount of arguments
+
 pub fn main() {
-  let text = "hello123"
-  let result = is_valid(text)
-  echo result
+  echo json_utils.nested_decoder()
+  echo json_utils.Simple
 }
-
