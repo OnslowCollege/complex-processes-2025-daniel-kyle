@@ -22,6 +22,13 @@ gleam_package_interface = ">= 3.0.1 and < 4.0.0"
 filepath = ">= 1.1.2 and < 2.0.0"
 formal = ">= 3.0.0 and < 4.0.0"
 glentities = ">= 6.2.1 and < 7.0.0"
+gleam_http = ">= 4.1.1 and < 5.0.0"
+gleam_javascript = ">= 1.0.0 and < 2.0.0"
+glen = ">= 2.2.3 and < 3.0.0"
+conversation = ">= 2.0.2 and < 3.0.0"
+gleam_httpc = ">= 5.0.0 and < 6.0.0"
+javascript = ">= 0.1.0 and < 1.0.0"
+fetch = ">= 0.0.1 and < 1.0.0"
 
 [dev-dependencies]
 gleeunit = ">= 1.0.0 and < 2.0.0"

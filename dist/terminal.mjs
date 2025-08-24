@@ -1,7 +1,21 @@
 "use strict";
 // Don't make this gleam code 
 
-// import { is_valid } from "./build/dev/javascript/file_terminal/file_terminal.mjs"; 
+import { is_alphanumeric } from "../build/dev/javascript/file_terminal/validation.mjs"; 
+
+import { item_delimiter, 
+    command_delimiter, 
+    extension_delimiter, 
+    base_file_size,
+    max_name_length,
+    min_name_length,
+    extension_name_length,
+    empty_character,
+    min_file_size,
+    max_file_size,
+    move_up_command
+} from "../build/dev/javascript/file_terminal/constants.mjs"; 
+
 
 function newElement(text) {
     let ul = document.getElementById("contents"); // Get the <ul>
@@ -28,30 +42,7 @@ if (commandForm) {
     };
 }
 
-// No need to remake the constants in gleam.
-// What seperates each file in the file path name.
-const itemDelimiter = "/";
-// What seperates each command in the full command.
-const commandDelimiter = " ";
-// What seperates the extension from the file name.
-const extensionDelimiter = ".";
-// The base size of each file in KB.
-const basefileSize = 1;
-// The longest a file/folder name can be.
-const maxItemNameLength = 12;
-// The shortest a file/folder name can be.
-const minItemNameLength = 1;
-// The length a file extension should be.
-const extensionNameLength = 3;
-// An empty splitter.
-const emptyCharacter = "";
-// The minimum size a file can be.
-const minfileSize = 1;
-// The maximum size a file can be.
-const maxfileSize = 4194304;
-// Command for cd that allows the user to move up a folder.
-const moveUpCommand = "..";
-// Make this a gleam class if you can
+
 /**
  * Basic structure for files and folders.
  */
@@ -75,7 +66,7 @@ class ItemNode {
         // Pushes itself into it's parent's children array.
         this.parentFolder?.children.push(this);
         // The full scientific name of the node, including it's own name.
-        this.path = parentFolder === null ? itemDelimiter + name : parentFolder.path + itemDelimiter + name;
+        this.path = parentFolder === null ? item_delimiter + name : parentFolder.path + item_delimiter + name;
     }
     // This is a size getter so the user can get the size of the item.
     get size() {
@@ -233,26 +224,7 @@ function getItemFromFolder(searchedFolder, splitPath) {
     }
     return searchedFolder;
 }
-// Make this a gleam function
-/**
- *
- * @param text The text being checked.
- * @returns A boolean indicating if the text has only
- * lowercase alphanumberic characters (true) or not (false)
- */
-function isLowerCaseAlphaNumberic(text) {
-    // Uses RegEx to check if the text only contains lowercase letters a-z and numbers 0-9.
-    // Returns true if the text contains only lowercase letters and numbers and false if not.
-    const lettersNumbers = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
-        "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-    for (let character of text) {
-        // Checks if the character is not a letter or number.
-        if (!lettersNumbers.includes(character)) {
-            return false;
-        }
-    }
-    return true;
-}
+
 /**
  *
  * @param folder - The folder object you want to search.
@@ -287,8 +259,6 @@ function removeFolderFromFolder(folder) {
 }
 // Makes the current folder the starting folder.
 let currentFolder = startingFolder;
-// The command with the maximum amount of argments.
-const maxArguments = 3;
 // Displays the path of the current folder you are in.
 // Prompts the user for a command
 // Displays the current folder name in the UI.
@@ -299,20 +269,13 @@ displayChildren(currentFolder);
 
 // Don't make this function a cleam function
 function processCommand(command) {
-    const slicedCommand = command.split(commandDelimiter);
+    const slicedCommand = command.split(command_delimiter);
     // Picks the starting command from the splitted command.
+    
     let startCommand = slicedCommand[0];
+    let fullItemName = slicedCommand[1];
+    let ItemSize = slicedCommand[2];
     switch (startCommand) {
-        case "ls":
-            if (command != "ls") {
-                console.log("Please only enter the ls command.");
-                errorAudio.play()
-                break;
-            }
-            ;
-            displayChildren(currentFolder);
-            successAudio.play()
-            break;
         case "touch":
             // The minimum and maximum command lengths for the touch command
             const validTouchLengths = [2, 3];
@@ -327,10 +290,10 @@ function processCommand(command) {
             // Gets the file size of the file from the command.
             let fileSize = slicedCommand[2];
             let targetTouchFolder;
-            let splitTouchPath = slicedCommand[1].split(itemDelimiter);
+            let splitTouchPath = slicedCommand[1].split(item_delimiter);
             // Removes the empty character element if found.
             // If path starts with a slash, remove the empty string and the first folder name (which should be 'home')
-            if (splitTouchPath[0] === emptyCharacter) {
+            if (splitTouchPath[0] === empty_character) {
                 // Removes the blank string.
                 splitTouchPath.shift();
                 // Removes the first folder name (home).
@@ -361,29 +324,29 @@ function processCommand(command) {
             // Finds the number of extension delimiters by removing them from the file name.
             // Then subrtacting the length of the file name with removed delimiters from the length of the file name.
             const delimiterCount = fullFileName.length -
-                fullFileName.replaceAll(extensionDelimiter, emptyCharacter).length;
+                fullFileName.replaceAll(extension_delimiter, empty_character).length;
             // Checks if the full file name doesn't include only 1 extension delimiter. 
             // Tells the user to enter a valid file name.
             if (delimiterCount != 1) {
-                console.log(`Please enter one '${extensionDelimiter}' and an extension.`);
+                console.log(`Please enter one '${extension_delimiter}' and an extension.`);
                 errorAudio.play()
                 break;
             }
             ;
             // Splits the file name and the extension.
-            const splitfileName = fullFileName.split(extensionDelimiter);
+            const splitfileName = fullFileName.split(extension_delimiter);
             // Gets just the file name and not the extension.
             const fileName = splitfileName[0];
             // Gets just the extension and not the file name.
             const fileExtension = splitfileName[1];
             // Checks if the file name and extension are valid lengths.
-            if (fullFileName.length > maxItemNameLength || fileExtension.length != extensionNameLength) {
+            if (fullFileName.length > max_name_length || fileExtension.length != extension_name_length) {
                 console.log("Please enter a file name with a valid length.");
                 errorAudio.play()
                 break;
             }
             // Checks if the file doesn't contain only lowercase letters and numbers.
-            if (!isLowerCaseAlphaNumberic(fileName) || !isLowerCaseAlphaNumberic(fileExtension)) {
+            if (!is_alphanumeric(fileName) || !is_alphanumeric(fileExtension)) {
                 console.log("Please enter a file name and extension containing only letters and numbers.");
                 errorAudio.play()
                 break;
@@ -395,9 +358,9 @@ function processCommand(command) {
                 break;
             }
             // Checks if the file size is not within the maximum and minimum amounts.
-            if (Number(fileSize) < minfileSize || Number(fileSize) > maxfileSize) {
+            if (Number(fileSize) < min_file_size || Number(fileSize) > max_file_size) {
                 console.log("The file size is not valid.");
-                console.log(`Please enter a fileSize between ${minfileSize} KB and ${maxfileSize} KB.`);
+                console.log(`Please enter a fileSize between ${min_file_size} KB and ${max_file_size} KB.`);
                 errorAudio.play()
                 break;
             }
@@ -411,7 +374,7 @@ function processCommand(command) {
             ;
             // Makes the file size the default file size if not specified.
             if (!fileSize) {
-                fileSize = basefileSize;
+                fileSize = base_file_size;
             }
             ;
             // Creates the new file.
@@ -427,7 +390,7 @@ function processCommand(command) {
                 break;
             }
             let targetMkdirFolder;
-            let splitMkdirPath = slicedCommand[1].split(itemDelimiter);
+            let splitMkdirPath = slicedCommand[1].split(item_delimiter);
             if (!validMkdirLengths.includes(slicedCommand.length)) {
                 console.log("Please enter the command with the appropriate arguments.");
                 errorAudio.play()
@@ -437,7 +400,7 @@ function processCommand(command) {
             let folderName;
             // Removes the empty character element if found.
             // If path starts with a slash, remove the empty string and the first folder name (which should be 'home')
-            if (splitMkdirPath[0] === emptyCharacter) {
+            if (splitMkdirPath[0] === empty_character) {
                 // Removes the blank string.
                 splitMkdirPath.shift();
                 // Removes the first folder name (home).
@@ -463,7 +426,7 @@ function processCommand(command) {
                 break;
             }
             // Checks if the name of the folder is a valid length.
-            if (folderName.length < minItemNameLength || folderName.length > maxItemNameLength) {
+            if (folderName.length < min_name_length || folderName.length > max_name_length) {
                 console.log("Please enter a folder name between 1 and 12 characters.");
                 errorAudio.play()
                 break;
@@ -490,7 +453,7 @@ function processCommand(command) {
             // The minimum and maximum command lengths for the rm command
             const validRmLengths = [2];
             let targetRmFolder;
-            let splitRmPath = slicedCommand[1].split(itemDelimiter);
+            let splitRmPath = slicedCommand[1].split(item_delimiter);
             if (!validRmLengths.includes(slicedCommand.length)) {
                 console.log("Please enter the command with the appropriate arguments.");
                 errorAudio.play()
@@ -498,7 +461,7 @@ function processCommand(command) {
             }
             // Removes the empty character element if found.
             // If path starts with a slash, remove the empty string and the first folder name (which should be 'home')
-            if (splitRmPath[0] === emptyCharacter) {
+            if (splitRmPath[0] === empty_character) {
                 // Removes the blank string.
                 splitRmPath.shift();
                 // Removes the first folder name (home).
@@ -521,10 +484,10 @@ function processCommand(command) {
                 errorAudio.play()
                 break;
             }
-            let splitRmdirPath = slicedCommand[1].split(itemDelimiter);
+            let splitRmdirPath = slicedCommand[1].split(item_delimiter);
             // Removes the empty character element if found.
             // If path starts with a slash, remove the empty string and the first folder name (which should be 'home')
-            if (splitRmdirPath[0] === emptyCharacter) {
+            if (splitRmdirPath[0] === empty_character) {
                 // Removes the blank string.
                 splitRmdirPath.shift();
                 // Removes the first folder name (home).
@@ -559,7 +522,7 @@ function processCommand(command) {
                 break;
             }
             const folderPath = slicedCommand[1];
-            if (folderPath === moveUpCommand) {
+            if (folderPath === move_up_command) {
                 // Checks if the parent folder of the current folder exists.
                 // Before moving up folders.
                 if (currentFolder.parentFolder) {
@@ -574,11 +537,11 @@ function processCommand(command) {
                 break;
             }
             // Splits the path entered into an array of folder names.
-            let splitPath = folderPath.split(itemDelimiter);
+            let splitPath = folderPath.split(item_delimiter);
             let targetFolder;
             // Removes the empty character element if found.
             // If path starts with a slash, remove the empty string and the first folder name (which should be 'home')
-            if (splitPath[0] === emptyCharacter) {
+            if (splitPath[0] === empty_character) {
                 // Removes the blank string.
                 splitPath.shift();
                 // Removes the first folder name (home).

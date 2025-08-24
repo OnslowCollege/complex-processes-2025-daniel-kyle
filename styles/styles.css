@@ -6,7 +6,7 @@
 
 @font-face {
   font-family: 'Helvetica'; /* Choose a name for your font */
-  src: url('fonts/Helvetica.ttf') format('ttf'); /* Replace with your font file path and format */
+  src: url('../fonts/Helvetica.ttf') format('ttf'); /* Replace with your font file path and format */
 }
 
 body {

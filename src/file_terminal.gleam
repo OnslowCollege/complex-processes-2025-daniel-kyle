@@ -1,72 +1,89 @@
-// import gleam/int
-// import gleam/io
-// import gleam/list
-// import gleam/string
+import gleam/http
+import gleam/int
+import gleam/io
+import gleam/list
+import gleam/string
+
 // import validation
+import conversation
+import filepath
+import gleam/dict
+import gleam/dynamic
+import gleam/dynamic/decode
+import gleam/http/request
+import gleam/http/response
+import gleam/httpc
+import gleam/json
+import gleam/result
+import glen
 import json_utils
+import simplifile
 
-// fn ls() {
-//   echo "you just ls"
-// }
+fn thing() {
+  echo "thing"
+}
 
-// fn touch(file_name, file_size) {
-//   echo "you just touch"
-// }
+fn ls() {
+  simplifile.get_files("./src/file_system")
+}
 
-// fn mkdir(folder_name) {
-//   echo "you just mkdir"
-// }
+fn touch(file_name, file_size) {
+  let path = "./src/file_system/"
+  let file_path = path <> file_name
+  simplifile.create_file(file_path)
+  simplifile.append(to: file_path, contents: file_size)
+}
 
-// fn rm(file_name) {
-//   echo "you just rm"
-// }
+fn mkdir(folder_name) {
+  let path = "./src/file_system/"
+  let folder_path = path <> folder_name
+  simplifile.create_directory(folder_path)
+}
 
-// fn rmdir(folder_name) {
-//   echo "you just rmdir"
-// }
+fn rm(file_name) {
+  let path = "./src/file_system/"
+  let file_path = path <> file_name
+  simplifile.delete(file_path)
+}
 
-// fn cd(folder) {
-//   echo "you just cd"
-// }
+fn rmdir(folder_name) {
+  let path = "./src/file_system/"
+  let folder_path = path <> folder_name
+  simplifile.delete(folder_path)
+}
 
-// fn get_element(index, list) {
-//   let new_list = list.drop(list, index)
-//   case list.first(new_list) {
-//     Ok(element) -> element
-//     Error(_) -> ""
-//   }
-// }
+fn get_element(index, list) {
+  let new_list = list.drop(list, index)
+  case list.first(new_list) {
+    Ok(element) -> element
+    Error(_) -> ""
+  }
+}
 
-// pub fn process_command(command: String) {
-//   let sliced = string.split(command, " ")
-//   let stripped = list.filter(sliced, fn(x) { x != "" })
-//   let first: String = get_element(0, stripped)
-//   let second: String = get_element(1, stripped)
-//   let third: String = get_element(2, stripped)
+pub fn process_command(command: String) {
+  let sliced = string.split(command, " ")
+  let stripped = list.filter(sliced, fn(x) { x != "" })
+  let first: String = get_element(0, stripped)
+  let second: String = get_element(1, stripped)
+  let third: String = get_element(2, stripped)
 
-//   case first {
-//     "ls" -> ls()
-//     //0
-//     "touch" -> touch(second, third)
-//     //2
-//     "mkdir" -> mkdir(second)
-//     //1
-//     "rm" -> rm(second)
-//     //1
-//     "rmdir" -> rmdir(second)
-//     //1
-//     "cd" -> cd(second)
-//     //1
-//     _ -> ""
-//   }
-// }
-
-// pub fn main() {
-//   process_command("hello")
-// }
-// // they each need a certain amount of arguments
-
-pub fn main() {
-  echo json_utils.nested_decoder()
-  echo json_utils.Simple
+  case first {
+    "touch" -> {
+      touch(second, third)
+      Nil
+    }
+    "mkdir" -> {
+      mkdir(second)
+      Nil
+    }
+    "rm" -> {
+      rm(second)
+      Nil
+    }
+    "rmdir" -> {
+      rmdir(second)
+      Nil
+    }
+    _ -> Nil
+  }
 }
