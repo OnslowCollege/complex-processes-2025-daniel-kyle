@@ -1,5 +1,4 @@
 "use strict";
-// Don't make this gleam code 
 
 import { is_alphanumeric } from "../build/dev/javascript/file_terminal/validation.mjs"; 
 
@@ -31,7 +30,7 @@ const errorAudio = new Audio();
 errorAudio.src = "http://commondatastorage.googleapis.com/codeskulptor-assets/jump.ogg"
 
 
-// Don't make this gleam code 
+// Get's the user's input into the HTML form element after they submit.
 const commandForm = document.getElementById("command-input");
 if (commandForm) {
     commandForm.onsubmit = function (event) {

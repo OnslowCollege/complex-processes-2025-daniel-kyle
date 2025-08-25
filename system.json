@@ -1,21 +1,161 @@
 {
   "name": "home",
-  "baseSize": 5,
+  "size": 5,
   "isFile": false,
   "children" : [
 
     {
     "name": "documents",
-    "baseSize": 5,
+    "size": 5,
     "isFile": false,
     "children" : []
     },
 
     {
     "name": "downloads",
-    "baseSize": 5,
+    "size": 5,
     "isFile": false,
-    "children" : []
+    "children" : [
+      {
+      "name": "cv.pdf",
+      "size": 5,
+      "isFile": true,
+      "children" : []
+      },
+
+      {
+      "name": "data.dat",
+      "size": 5,
+      "isFile": true,
+      "children" : []
+      }
+    ]
+    },
+
+    {
+    "name": "music",
+    "size": 5,
+    "isFile": false,
+    "children" : [
+      {
+      "name": "1.mp3",
+      "size": 5,
+      "isFile": true,
+      "children" : []
+      },
+
+      {
+      "name": "2.mp3",
+      "size": 5,
+      "isFile": true,
+      "children" : []
+      },
+
+      {
+      "name": "3.mp3",
+      "size": 5,
+      "isFile": true,
+      "children" : []
+      },
+
+      {
+      "name": "4.mp3",
+      "size": 5,
+      "isFile": true,
+      "children" : []
+      },
+
+      {
+      "name": "5.mp3",
+      "size": 5,
+      "isFile": true,
+      "children" : []
+      },
+
+      {
+      "name": "6.mp3",
+      "size": 5,
+      "isFile": true,
+      "children" : []
+      },
+
+      {
+      "name": "7.mp3",
+      "size": 5,
+      "isFile": true,
+      "children" : []
+      },
+
+      {
+      "name": "8.mp3",
+      "size": 5,
+      "isFile": true,
+      "children" : []
+      },
+
+      {
+      "name": "9.mp3",
+      "size": 5,
+      "isFile": true,
+      "children" : []
+      },
+
+      {
+      "name": "10.mp3",
+      "size": 5,
+      "isFile": true,
+      "children" : []
+      }
+    ]
+    },
+
+    {
+    "name": "photos",
+    "size": 5,
+    "isFile": false,
+    "children" : [
+      {
+      "name": "japan2026",
+      "size": 5,
+      "isFile": false,
+      "children" : [
+        {
+      "name": "tokyo.png",
+      "baseSize": 5,
+      "isFile": true,
+      "children" : []
+      },
+
+      {
+      "name": "kyoto.jpg",
+      "baseSize": 5,
+      "isFile": true,
+      "children" : []
+      },
+
+      {
+      "name": "miyajima.gif",
+      "baseSize": 5,
+      "isFile": true,
+      "children" : []
+      }
+      ]
+      },
+
+      {
+      "name": "passport.jpg",
+      "baseSize": 5,
+      "isFile": true,
+      "children" : []
+      },
+
+      {
+      "name": "photoid.png",
+      "baseSize": 5,
+      "isFile": true,
+      "children" : []
+      }
+    ]
     }
   ]
 }
