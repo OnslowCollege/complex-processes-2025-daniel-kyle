@@ -2,19 +2,18 @@
 // import { isString } from "node:util";
 // import { isStringObject } from "node:util/types";
 
+import { create } from "domain"
+
 // const jsonData = fs.readFileSync('./system.json', 'utf8');
 // console.log(jsonData.split("\n"));
 
-const file_system = [
+const fileSystem = [
     [
         [
             "home",
             5,
             false,
-            [
-                "documents",
-                "downloads"
-            ]
+            ""
         ]
     ],
 
@@ -23,73 +22,103 @@ const file_system = [
             "documents",
             5,
             false,
-            []
+            "home"
         ],
         [
             "downloads",
             5,
             false,
-            []
+            "home"
         ]
     ]
 ]
 
 
 
-function findPosition(itemPath, file_system) {
+function getPosition(itemPath, fileSystem) {
     const delimiter = "/"
     let segmentedPath = itemPath.split(delimiter)
 
     // removes the empty string.
     segmentedPath.shift()
     console.log("segmented name is", segmentedPath)
-    const levels = file_system.length - 1
-    console.log(`the filesystem has ${levels} level/s`)
-    let level = 0
-    while (level <= levels) {
+    const maxLevel = fileSystem.length - 1
+    console.log(`the filesystem has ${maxLevel} level/s`)
+    let level = 1
+    while (level <= maxLevel) {
         let index = 0
-        while (index <= file_system[level].length - 1) {
-            let name = file_system[level][index][0]
-            console.log("name is", name)
-            if (name === segmentedPath[level]) {
+        let maxIndex = fileSystem[level].length - 1
+        while (index <= maxIndex) {
+            let parent = fileSystem[level][index][3]
+            console.log("parent is", parent)
+            console.log(segmentedPath[level-1])
+            console.log(segmentedPath.length)
+            if (parent === segmentedPath[level - 1]) {
+                console.log("yeah")
                 if (level === segmentedPath.length - 1)  {
                     // returns the level, index of the element.
                     return [level, index]
                 }
                 break
             }
-            index++
-            
+            index++   
         } 
         level++
-        
     }
 }
 
-function deleteFile(fileName, parentLevel, parentIndex, file_system) {
-    console.log("deleteFile() is running")
-    let isDeleted = false
-    while (!isDeleted) {
-        console.log("deleteFile is looping")
-        const fileLevel = parentLevel + 1
-        let index = 0
-        let validChildren = file_system[parentLevel][parentIndex][3]
-        for (let fileNode of file_system[fileLevel]) {
-            console.log(`deleteFile() has for looped ${index} times`)
-            let name = fileNode[0]
-            if (validChildren.includes(name)) {
-                if (name === fileName) {
-                    console.log("deleteFile is validating")
-                    file_system[fileLevel] = removeAt(index, file_system[fileLevel])
-                    console.log("validated")
-                    isDeleted = true
-                    break
-                }
-            }
-            index++;
+function deleteItemwhile(itemLevel, itemIndex, fileSystem) {
+    // Level of the item
+    console.log(itemIndex)
+    console.log(itemLevel)
+    console.log()
+    let parentName = fileSystem[itemLevel][itemIndex][0]
+    let currentLevel = itemLevel
+    const maxlevel = fileSystem.length - 1
+    let itemExists = false
+    while (currentLevel <= maxlevel) {
+        if (!itemExists) {
+            return true
         }
-
+        let currentIndex = 0
+        let maxIndex = fileSystem[currentLevel].length - 1
+        itemExists = false
+        while (currentIndex <= maxIndex) {
+            let itemParent = fileSystem[currentLevel][currentIndex][3]
+            if (itemParent === parentName) {
+                deleteItemAt(currentLevel, itemIndex, fileSystem)
+                itemExists = true
+            }
+            currentIndex++
+        }
+        currentLevel++
     }
+    console.log("Item does not exist")
+    return false
+}
+
+function deleteItem(itemLevel, itemIndex, fileSystem) {
+    // Level of the item
+    console.log(itemIndex)
+    console.log(itemLevel)
+    console.log()
+    let parentName = fileSystem[itemLevel][itemIndex][0]
+    let currentLevel = itemLevel
+    const maxlevel = fileSystem.length - 1
+    let itemExists = false
+    for (let level of fileSystem) {
+        for (let item of level) {
+            itemName = item[0]
+            if (itemName === parentName) {
+
+            }
+        }
+    }
+}
+
+function deleteItemAt(itemLevel, itemIndex, fileSystem) {
+    console.log("deleting item at [", itemIndex, itemIndex, "]")
+    fileSystem[itemLevel] = removeAt(itemIndex, fileSystem[itemLevel])
 }
 
 function removeAt(index, array) {
@@ -117,7 +146,11 @@ function removeAt(index, array) {
 // deleteFile("downloads", 0, 0, file_system)
 // console.log(file_system)
 
-console.log(findPosition("/home/downloads", file_system))
+console.log(fileSystem)
+
+createItem(1, "images", 5, false, "home", fileSystem)
+
+console.log(fileSystem)
 
 // Our New Node system is done and it goes like this
 // Data structure List[List[Tuple[String, Int, Bool, List[String]]]]
@@ -128,3 +161,59 @@ console.log(findPosition("/home/downloads", file_system))
 // assuming the item has children.
 
 // will leave error handing for later
+
+function createItem(level, name, size, isFile, parent, fileSystem) {
+    const newItem = [
+        name,
+        size,
+        isFile,
+        parent
+    ]
+
+    fileSystem[level].push(newItem)
+}
+
+function getNameFromPos(level, index, fileSystem) {
+    const name = fileSystem[level][index][0]
+    return name
+}
+
+const startingDirectoryPos = [0,0]
+const startingDirectoryPath = ""
+
+let currentDirectoryPos = startingDirectoryPos
+
+let currentDirectoryPath = startingDirectoryPath
+
+switch ("touch") {
+
+    case "touch":
+        createItem(
+            1,
+            "other",
+            5,
+            false,
+            "home",
+            fileSystem
+        )
+
+    case "mkdir":
+        createItem
+
+    case "rm":
+        deleteItemAt
+
+    case "rmdir":
+        deleteItemAt
+
+    case "cd":
+        let [dirLevel, dirIndex] = currentDirectoryPos
+        const dirParentName = fileSystem[dirLevel][dirIndex][3]
+        let segmentedPath = currentDirectoryPath.split("/")
+        segmentedPath.shift()
+        console.log(segmentedPath)
+
+        const newPos = getPosition(currentDirectoryPath)
+        currentDirectoryPos = newPos
+        currentDirectoryPath = currentDirectoryPath
+}
