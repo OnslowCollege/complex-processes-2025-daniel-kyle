@@ -7,7 +7,7 @@ import { create } from "domain"
 // const jsonData = fs.readFileSync('./system.json', 'utf8');
 // console.log(jsonData.split("\n"));
 
-const fileSystem = [
+let fileSystem = [
     [
         [
             "home",
@@ -121,6 +121,30 @@ function deleteItemAt(itemLevel, itemIndex, fileSystem) {
     fileSystem[itemLevel] = removeAt(itemIndex, fileSystem[itemLevel])
 }
 
+function deleteItem(itemLevel, itemIndex, fileSystem) {
+    let deletingPool = []
+    let foundItem = true
+    const firstItemPosition = [itemLevel, itemIndex]
+    deletingPool.unshift(firstItemPosition)
+    let targetName = firstItem[0]
+    let currentLevel = itemLevel + 1
+    while (foundItem) {
+        foundItem = false
+        index = 0
+        // Since 0-based indexing. This isn't Lua afterall.
+        maxIndex = fileSystem[currentLevel].length - 1
+        while (index <= maxIndex) {
+            let parent = fileSystem[currentLevel][index][3]
+            if (parent == targetName) {
+                let ItemPosition = [currentLevel, index]
+                deletingPool.shift(ItemPosition)
+                foundItem = true
+            }
+            index++
+        }
+    }
+}
+
 function removeAt(index, array) {
     console.log("removeAt() is running")
     let bucket = []
@@ -143,14 +167,8 @@ function removeAt(index, array) {
     return array
 }
 
-// deleteFile("downloads", 0, 0, file_system)
-// console.log(file_system)
-
-console.log(fileSystem)
-
-createItem(1, "images", 5, false, "home", fileSystem)
-
-console.log(fileSystem)
+// deleteFile("downloads", 0, 0, fileSystem)
+// console.log(fileSystem)
 
 // Our New Node system is done and it goes like this
 // Data structure List[List[Tuple[String, Int, Bool, List[String]]]]
@@ -163,13 +181,15 @@ console.log(fileSystem)
 // will leave error handing for later
 
 function createItem(level, name, size, isFile, parent, fileSystem) {
-    const newItem = [
+    let newItem = [
         name,
         size,
         isFile,
         parent
     ]
-
+    console.log(fileSystem)
+    console.log(level)
+    console.log(newItem)
     fileSystem[level].push(newItem)
 }
 
@@ -185,26 +205,32 @@ let currentDirectoryPos = startingDirectoryPos
 
 let currentDirectoryPath = startingDirectoryPath
 
+console.log(fileSystem)
+
+createItem(1, "images", 5, false, "home", fileSystem)
+
+
 switch ("touch") {
 
     case "touch":
-        createItem(
-            1,
-            "other",
-            5,
-            false,
-            "home",
-            fileSystem
-        )
+        console.log("creating item")
+        createItem(1, "other.txt", 5, false, "home", fileSystem)
+        break
 
     case "mkdir":
-        createItem
+        createItem(
+            1,
+            ""
+        )
+        break
 
     case "rm":
-        deleteItemAt
+        // deleteItemAt()
+        break
 
     case "rmdir":
-        deleteItemAt
+        // deleteItemAt
+        break
 
     case "cd":
         let [dirLevel, dirIndex] = currentDirectoryPos
@@ -216,4 +242,32 @@ switch ("touch") {
         const newPos = getPosition(currentDirectoryPath)
         currentDirectoryPos = newPos
         currentDirectoryPath = currentDirectoryPath
+        break
 }
+
+// error handeling
+
+function hasExtension(fileName) {
+    let has = false
+    const extensionDelimiter = "."
+    for (const symbol of fileName) {
+        if (symbol === extensionDelimiter) {
+            has = true
+            break
+        }
+    }
+    return has
+}
+
+// check if correct num arguments are present
+
+// correct ext length
+// corrent file length
+
+// solved with validate length
+
+// correct extension symbols
+// correct file words
+
+// solves with alphanum func
+

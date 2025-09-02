@@ -1,5 +1,6 @@
 import gleam/int
 import gleam/list
+import gleam/option.{None, Some}
 import gleam/string
 
 fn is_false(bool: Bool) -> Bool {
@@ -47,4 +48,29 @@ pub fn validate_size(file_size: Int, min: Int, max: Int) -> Bool {
       }
     False -> False
   }
+}
+
+pub fn has_extension(file_name) -> Bool {
+  let split_name = string.split(file_name, "")
+  let extension_count = list.count(split_name, fn(char) { char == "." })
+  case extension_count == 1 {
+    True -> True
+    False -> False
+  }
+}
+
+pub type Item {
+  StrItem(String)
+  IntItem(Int)
+  BoolItem(Bool)
+  PrtItem(String)
+}
+
+pub type FileSystem =
+  List(List(List(Item)))
+
+pub const default_size = 5
+
+pub fn initialize_item(item_name, item_size, is_file, parent) {
+  [StrItem(item_name), IntItem(item_size), BoolItem(is_file), PrtItem(parent)]
 }
