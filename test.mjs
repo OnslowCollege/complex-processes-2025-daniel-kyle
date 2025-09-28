@@ -259,5 +259,3 @@ function hasExtension(fileName) {
 // solves with alphanum func
 
 deleteFolder(0, 0, fileSystem)
-
-console.log(fileSystem)
