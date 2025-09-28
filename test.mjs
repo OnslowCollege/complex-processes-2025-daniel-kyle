@@ -30,7 +30,9 @@ let fileSystem = [
             false,
             "home"
         ]
-    ]
+    ],
+
+
 ]
 
 
@@ -61,88 +63,15 @@ function getPosition(itemPath, fileSystem) {
                 }
                 break
             }
-            index++   
+            index++;
         } 
-        level++
+        level++;
     }
 }
 
-function deleteItemwhile(itemLevel, itemIndex, fileSystem) {
-    // Level of the item
-    console.log(itemIndex)
-    console.log(itemLevel)
-    console.log()
-    let parentName = fileSystem[itemLevel][itemIndex][0]
-    let currentLevel = itemLevel
-    const maxlevel = fileSystem.length - 1
-    let itemExists = false
-    while (currentLevel <= maxlevel) {
-        if (!itemExists) {
-            return true
-        }
-        let currentIndex = 0
-        let maxIndex = fileSystem[currentLevel].length - 1
-        itemExists = false
-        while (currentIndex <= maxIndex) {
-            let itemParent = fileSystem[currentLevel][currentIndex][3]
-            if (itemParent === parentName) {
-                deleteItemAt(currentLevel, itemIndex, fileSystem)
-                itemExists = true
-            }
-            currentIndex++
-        }
-        currentLevel++
-    }
-    console.log("Item does not exist")
-    return false
-}
-
-function deleteItem(itemLevel, itemIndex, fileSystem) {
-    // Level of the item
-    console.log(itemIndex)
-    console.log(itemLevel)
-    console.log()
-    let parentName = fileSystem[itemLevel][itemIndex][0]
-    let currentLevel = itemLevel
-    const maxlevel = fileSystem.length - 1
-    let itemExists = false
-    for (let level of fileSystem) {
-        for (let item of level) {
-            itemName = item[0]
-            if (itemName === parentName) {
-
-            }
-        }
-    }
-}
-
-function deleteItemAt(itemLevel, itemIndex, fileSystem) {
+function deleteItemAt(itemIndex, itemLevel, fileSystem) {
     console.log("deleting item at [", itemIndex, itemIndex, "]")
     fileSystem[itemLevel] = removeAt(itemIndex, fileSystem[itemLevel])
-}
-
-function deleteItem(itemLevel, itemIndex, fileSystem) {
-    let deletingPool = []
-    let foundItem = true
-    const firstItemPosition = [itemLevel, itemIndex]
-    deletingPool.unshift(firstItemPosition)
-    let targetName = firstItem[0]
-    let currentLevel = itemLevel + 1
-    while (foundItem) {
-        foundItem = false
-        index = 0
-        // Since 0-based indexing. This isn't Lua afterall.
-        maxIndex = fileSystem[currentLevel].length - 1
-        while (index <= maxIndex) {
-            let parent = fileSystem[currentLevel][index][3]
-            if (parent == targetName) {
-                let ItemPosition = [currentLevel, index]
-                deletingPool.shift(ItemPosition)
-                foundItem = true
-            }
-            index++
-        }
-    }
 }
 
 function removeAt(index, array) {
@@ -165,6 +94,62 @@ function removeAt(index, array) {
     }
 
     return array
+}
+
+function deleteFolder(index, array, fileSystem) {
+    // A pool of positions of items to delete. [index, array]
+    let currentLevel = array
+    let removePool = []
+    let targetNames = []
+    const newNameLevel = []
+    let targetNameLevel = 0
+    let targetName = fileSystem[array][index][0]
+
+    if (targetNames.length - 1 != targetNameLevel) {
+        targetNames.push(newNameLevel)
+    }
+    targetNames[targetNameLevel].push(targetName)
+
+    removePool.push([index, array])
+    currentLevel++
+    let currentIndex = 0
+
+    while (true) {
+
+        if (currentLevel >= fileSystem.length) {
+            break
+        }
+
+        let currentItem = fileSystem[currentLevel][currentIndex]
+        let currentName = currentItem[0]
+        let currentParent = currentItem[3]
+        console.log(targetNames[targetNameLevel])
+        console.log(currentParent)
+
+        if (targetNames[targetNameLevel].includes(currentParent)) {
+            if (targetName.length - 1 != targetNameLevel) {
+                targetNames.push(newNameLevel)
+            }
+            targetNames[targetNameLevel].push(currentName)
+            removePool.push([currentIndex, currentLevel])
+        }
+
+        currentIndex++
+        if (currentIndex == fileSystem[currentLevel].length) {
+            currentIndex = 0
+            currentLevel++
+            targetNameLevel++
+        }
+    }
+
+    removePool = removePool.sort((a, b) => {
+    return  b[0] - a[0];
+    });
+    console.log(removePool)
+    for (const [indexPos, arrayPos] of removePool) {
+    deleteItemAt(indexPos, arrayPos, fileSystem)
+    }
+    console.log(fileSystem)
 }
 
 // deleteFile("downloads", 0, 0, fileSystem)
@@ -205,9 +190,9 @@ let currentDirectoryPos = startingDirectoryPos
 
 let currentDirectoryPath = startingDirectoryPath
 
-console.log(fileSystem)
+// console.log(fileSystem)
 
-createItem(1, "images", 5, false, "home", fileSystem)
+// createItem(1, "images", 5, false, "home", fileSystem)
 
 
 switch ("touch") {
@@ -243,6 +228,8 @@ switch ("touch") {
         currentDirectoryPos = newPos
         currentDirectoryPath = currentDirectoryPath
         break
+    case "":
+        break
 }
 
 // error handeling
@@ -271,3 +258,6 @@ function hasExtension(fileName) {
 
 // solves with alphanum func
 
+deleteFolder(0, 0, fileSystem)
+
+console.log(fileSystem)

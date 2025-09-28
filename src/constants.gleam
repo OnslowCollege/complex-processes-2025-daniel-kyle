@@ -1,3 +1,4 @@
+// This file include all constants present in the code.
 pub const item_delimiter: String = "/"
 
 // What separates each command in the full command.
