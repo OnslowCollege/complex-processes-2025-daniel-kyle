@@ -214,7 +214,7 @@ switch ("touch") {
         break
 
     case "rmdir":
-        // deleteItemAt
+        
         break
 
     case "cd":

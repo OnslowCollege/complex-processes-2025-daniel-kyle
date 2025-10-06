@@ -77,3 +77,21 @@ pub const default_size = 5
 pub fn initialize_item(item_name, item_size, is_file, parent) {
   [StrItem(item_name), IntItem(item_size), BoolItem(is_file), PrtItem(parent)]
 }
+
+pub fn rm(index, array, file_system) {
+  todo
+}
+
+// has extension true
+
+pub fn rmdir(index, array, file_system) {
+  todo
+}
+
+// has extension false
+
+pub fn get_position(item_path, file_system) {
+  let delimiter = "/"
+  let segmented_path = string.split(item_path, delimiter)
+  echo segmented_path
+}
