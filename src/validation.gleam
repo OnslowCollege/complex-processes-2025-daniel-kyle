@@ -77,10 +77,6 @@ pub fn initialize_item(item_name, item_size, is_file, parent) {
   [StrItem(item_name), IntItem(item_size), BoolItem(is_file), PrtItem(parent)]
 }
 
-fn main() {
-  echo initialize_item("file.txt", 10, True, "folder")
-}
-
 // Type definitions
 pub type FileItem {
   FileItem(name: String, size: Int, is_file: Bool, parent: String)
@@ -299,4 +295,8 @@ pub fn get_name_from_pos(
 // Check if filename has extension
 pub fn has_extension(file_name: String) -> Bool {
   string.contains(file_name, ".")
+}
+
+fn main() {
+  echo initialize_item("file.txt", 10, True, "folder")
 }
