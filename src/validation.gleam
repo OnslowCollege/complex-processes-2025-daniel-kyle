@@ -1,3 +1,6 @@
+// All the validation functions for the project including checking if lengths are correct.
+// It also includes the item structure itself.
+
 import gleam/io
 import gleam/list
 import gleam/option.{type Option, None, Some}
