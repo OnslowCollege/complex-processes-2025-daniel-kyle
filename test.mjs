@@ -75,6 +75,32 @@ function deleteItemAt(itemIndex, itemLevel, fileSystem) {
 }
 
 function removeAt(index, level) {
+}
+// function deleteItem(itemLevel, itemIndex, fileSystem) {
+//     let deletingPool = []
+//     let foundItem = true
+//     const firstItemPosition = [itemLevel, itemIndex]
+//     deletingPool.unshift(firstItemPosition)
+//     let targetName = firstItem[0]
+//     let currentLevel = itemLevel + 1
+//     while (foundItem) {
+//         foundItem = false
+//         index = 0
+//         // Since 0-based indexing. This isn't Lua afterall.
+//         maxIndex = fileSystem[currentLevel].length - 1
+//         while (index <= maxIndex) {
+//             let parent = fileSystem[currentLevel][index][3]
+//             if (parent == targetName) {
+//                 let ItemPosition = [currentLevel, index]
+//                 deletingPool.shift(ItemPosition)
+//                 foundItem = true
+//             }
+//             index++
+//         }
+//     }
+// }
+
+function removeAt(index, array) {
     console.log("removeAt() is running")
     let bucket = []
     let iteration = 0
@@ -160,7 +186,7 @@ function deleteFolder(index, level, fileSystem) {
 // Now the first list (List[...]) contains the levels. These levels start at 0 (the root) and go as deep as whatever.
 // The second list contains the items inside a level.
 // The tuple contains the "attribues" of every item cause this is mimicing objects.
-// The forth list inside the tuple contains the names of the children of the item.
+// The forth list inside the List contains the names of the children of the item.
 // assuming the item has children.
 
 // will leave error handing for later
@@ -259,4 +285,22 @@ function hasExtension(fileName) {
 
 // solves with alphanum func
 
-deleteFolder(0, 0, fileSystem)
+// write delete func for files and folders, delete folder should delete all subfolders (children) and files
+
+// Recursively delete a folder and all its children from the fileSystem structure
+function deleteFolderRecursively(level, index, fileSystem) {
+    const folderName = fileSystem[level][index][0];
+    const maxLevel = fileSystem.length - 1;
+
+    // Delete children first
+    for (let l = level + 1; l <= maxLevel; l++) {
+        // Find all items whose parent is this folder
+        for (let i = fileSystem[l].length - 1; i >= 0; i--) {
+            if (fileSystem[l][i][3] === folderName) {
+                deleteFolderRecursively(l, i, fileSystem);
+            }
+        }
+    }
+    // Delete the folder itself
+    deleteItemAt(level, index, fileSystem);
+}
