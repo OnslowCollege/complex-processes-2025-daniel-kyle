@@ -11,6 +11,8 @@
 <label for="darkToggle">Dark Mode</label>
 <h1 id="main-title">Welcome to the file terminal</h1>
 
+
+
 <div id="overview">
         <h3 id="overview-title">Overview</h3>
         
@@ -21,6 +23,8 @@
         </p>
 </div>
 
+
+<!-- This a dix containing the glossary, help-title, help-description. -->
 <div id="help">
 
         <ul id="glossary">
@@ -35,8 +39,14 @@
         </p>
 </div>
 
+
+
 <h2 id="command-title">Your commands are:</h2>
+
+
 <!--
+List of commands:
+
 - 'ls' displayed all the files and folders in the folder you're in
 - 'touch' <fileName> <fileSize> creates a file with a specified size in KB 
  ( defualt size is 1KB if left unspecified. 
@@ -53,8 +63,13 @@
 -->
 
 
+<!-- This div contains all of the boxes of commands. -->
 
 <div id="commands">
+
+    <!-- Each of these divs contain all the contents of each command.
+     You won't need to worry about these divs as they're only used when you want to move blocks of content in specific positions
+     which isn't happening. -->
 
     <div class="command-contents">
   <div class="tooltip">
@@ -78,6 +93,8 @@
 </div>
     </div>
 
+
+
     <div class="command-contents">
       <div class="tooltip">
         <h3 class="command">rm</h3>
@@ -85,12 +102,16 @@
       </div>
     </div>
 
+
+
     <div class="command-contents">
       <div class="tooltip">
         <h3 class="command">rmdir</h3>
         <span class="tooltiptext">'rmdir' foldername deletes a folder in the current folder.</span>
       </div>
     </div>
+
+
 
     <div class="command-contents">
       <div class="tooltip">
@@ -101,13 +122,22 @@
 
 </div>
 
+
+<!-- This is the form element which is how the user enters a command into the program.
+ the label is the text above the box. The box could be made bigger and the text made to pop. -->
 <form id="command-input">
     <label >Enter command in the command box:</label><br>
     <input type="text" name="command-input" ><br>
     <input type="submit" value="Submit">
 </form>
 
-<h2>You're currently in the <span id="directory"></span> directory</h2>
+
+
+<!-- This code allows the program to display all the children of the folder you're inside. 
+ The id of the span element gives you access to how the displayed text looks. -->
+<h2>You're currently in the 
+    <span id="directory"></span>
+directory</h2>
 <ul id="contents">
     
 </ul>

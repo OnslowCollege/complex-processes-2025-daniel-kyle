@@ -74,6 +74,8 @@ function deleteItemAt(itemIndex, itemLevel, fileSystem) {
     fileSystem[itemLevel] = removeAt(itemIndex, fileSystem[itemLevel])
 }
 
+function removeAt(index, level) {
+}
 // function deleteItem(itemLevel, itemIndex, fileSystem) {
 //     let deletingPool = []
 //     let foundItem = true
@@ -103,7 +105,7 @@ function removeAt(index, array) {
     let bucket = []
     let iteration = 0
     while (iteration <= index) {
-        bucket.unshift(array.shift())
+        bucket.unshift(level.shift())
         iteration++
     }
     // removes the element at that index
@@ -113,28 +115,28 @@ function removeAt(index, array) {
     iteration = 0
 
     while (iteration <= (index - 1)) {
-        array.unshift(bucket[iteration])
+        level.unshift(bucket[iteration])
         iteration++
     }
 
-    return array
+    return level
 }
 
-function deleteFolder(index, array, fileSystem) {
-    // A pool of positions of items to delete. [index, array]
-    let currentLevel = array
+function deleteFolder(index, level, fileSystem) {
+    // A pool of positions of items to delete. [index, level]
+    let currentLevel = level
     let removePool = []
     let targetNames = []
     const newNameLevel = []
     let targetNameLevel = 0
-    let targetName = fileSystem[array][index][0]
+    let targetName = fileSystem[level][index][0]
 
     if (targetNames.length - 1 != targetNameLevel) {
         targetNames.push(newNameLevel)
     }
     targetNames[targetNameLevel].push(targetName)
 
-    removePool.push([index, array])
+    removePool.push([index, level])
     currentLevel++
     let currentIndex = 0
 
@@ -170,8 +172,8 @@ function deleteFolder(index, array, fileSystem) {
     return  b[0] - a[0];
     });
     console.log(removePool)
-    for (const [indexPos, arrayPos] of removePool) {
-    deleteItemAt(indexPos, arrayPos, fileSystem)
+    for (const [indexPos, levelPos] of removePool) {
+    deleteItemAt(indexPos, levelPos, fileSystem)
     }
     console.log(fileSystem)
 }
@@ -209,6 +211,7 @@ function getNameFromPos(level, index, fileSystem) {
 
 const startingDirectoryPos = [0,0]
 const startingDirectoryPath = ""
+
 
 let currentDirectoryPos = startingDirectoryPos
 
