@@ -118,6 +118,12 @@ pub fn get_position(
 
   let max_level = list.length(file_system) - 1
 
+  // Display the file name in the console
+  case result.replace_error(list.last(segmented_path), Nil) {
+    Ok(file_name) -> io.println("Looking for file: " <> file_name)
+    Error(_) -> io.println("No file name found in path")
+  }
+
   do_get_position(segmented_path, file_system, 1, max_level)
 }
 
@@ -135,6 +141,12 @@ fn do_get_position(
         Ok(current_level) -> {
           case find_in_level(current_level, segmented_path, level) {
             Some(index) -> {
+              // Display the name of the file we are getting the name of
+              case get_at(segmented_path, list.length(segmented_path) - 1) {
+                Ok(file_name) ->
+                  io.println("Getting name of file: " <> file_name)
+                Error(_) -> io.println("No file name found")
+              }
               case level == list.length(segmented_path) - 1 {
                 True -> Some(Position(level, index))
                 False ->
@@ -292,6 +304,13 @@ pub fn get_name_from_pos(
         Ok(item) -> Some(item.name)
       }
     }
+  }
+}
+
+pub fn rm(item_path: String, file_system: FileSystem) -> FileSystem {
+  case get_position(item_path, file_system) {
+    None -> file_system
+    Some(Position(level, index)) -> delete_item_at(level, index, file_system)
   }
 }
 

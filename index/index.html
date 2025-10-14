@@ -7,6 +7,8 @@
     
 </head>
 <body>
+    <input type="checkbox" id="darkToggle">
+<label for="darkToggle">Dark Mode</label>
 <h1 id="main-title">Welcome to the file terminal</h1>
 
 <div id="overview">
@@ -55,44 +57,46 @@
 <div id="commands">
 
     <div class="command-contents">
-        <h3 class="command">ls</h3>
-        <p class="command-description">
-            - 'ls' displays all the files and folders in the folder you're in</p>
+  <div class="tooltip">
+    <h3 class="command">ls</h3>
+    <span class="tooltiptext">'ls' displays all the files and folders in the current directory.</span>
+  </div>
+</div>
+
+<div class="command-contents">
+  <div class="tooltip">
+    <h3 class="command">touch</h3>
+    <span class="tooltiptext">'touch' filename filesize creates a file with a specified size in KB (default 1KB).</span>
+  </div>
+</div>
+
+<div class="command-contents">
+  <div class="tooltip">
+    <h3 class="command">mkdir</h3>
+    <span class="tooltiptext">'mkdir' foldername creates a new folder in the current directory.</span>
+  </div>
+</div>
     </div>
 
     <div class="command-contents">
-        <h3 class="command">touch</h3>
-        <p class="command-description">- 'touch' filename filesize creates a file with a specified size in KB (defualt size is 1KB if left unspecified. )
--  File and folder names must be a minimum of 1 and maximum of 12 characters.
--  Files also need a '.' followed by a 3 character extension.
-</p>
-    </div>
-
-    <div class="command-contents">
-        <h3 class="command">mkdir</h3>
-        <p class="command-description">- 'mkdir' foldername creates a new folder in the current directory or a specified path
-(the full path is used for the name if you want to create a file in another directory)
-</p>
-    </div>
-
-    <div class="command-contents">
+      <div class="tooltip">
         <h3 class="command">rm</h3>
-        <p class="command-description">- 'rm' filename deletes a file in the current folder.
-</p>
+        <span class="tooltiptext">'rm' filename deletes a file in the current folder.</span>
+      </div>
     </div>
 
     <div class="command-contents">
+      <div class="tooltip">
         <h3 class="command">rmdir</h3>
-        <p class="command-description">- 'rmdir' foldername deletes a folder in the current folder.
-</p>
+        <span class="tooltiptext">'rmdir' foldername deletes a folder in the current folder.</span>
+      </div>
     </div>
 
     <div class="command-contents">
+      <div class="tooltip">
         <h3 class="command">cd</h3>
-        <p class="command-description">- 'cd' foldername changes to a folder in the current folder.
--  use ''..' as the folderName to change out of the current folder with cd.
--  e.g. (cd ..)
-</p>
+        <span class="tooltiptext">'cd' foldername changes to a folder in the current folder. Use '..' to go up a directory (e.g., cd ..).</span>
+      </div>
     </div>
 
 </div>

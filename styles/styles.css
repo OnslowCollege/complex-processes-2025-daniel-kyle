@@ -9,20 +9,142 @@
   src: url('../fonts/Helvetica.ttf') format('ttf'); /* Replace with your font file path and format */
 }
 
+/* Default (light mode) */
 body {
-    font-family: 'Helvetica', sans-serif; /* Use the font you defined */
-    background-color: #FFF8E8; /* Light background for better contrast */
-    color: #333; /* Dark text for readability */
+  background-color: #FFF8E8;
+  color: #333;
+  font-family: 'Helvetica', sans-serif;
+}
+
+/* Hide the actual checkbox */
+#darkToggle {
+  display: none;
+}
+
+/* Style the label to look like a button */
+label[for="darkToggle"] {
+  cursor: pointer;
+  background-color: #333;
+  color: #FFF8E8;
+  padding: 10px 20px;
+  border-radius: 5px;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+/* Dark mode when checkbox is checked */
+#darkToggle:checked ~ * {
+  background-color: #000;
+  color: #fff;
 }
 
 .command-contents {
-    background-color: #DEE8CE; /* White background for command sections */
-    border: 1px solid #ccc; /* Light border for separation */
-    border-radius: 5px; /* Rounded corners for a modern look */
-    padding: 20px; /* Spacing inside the command section */
-    margin: 10px 0; /* Spacing between command sections */
+  background-color: #f0f0f0; /* Light grey for normal mode */
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  padding: 20px;
+  margin: 10px 0;
+  color: #222;
+  transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+}
+
+/* Adjust for dark mode */
+body:has(#darkToggle:checked) .command-contents {
+  background-color: #2b2b2b; /* Dark grey background */
+  border-color: #555;
+  color: #eee; /* Light text for readability */
 }
 
 #contents {
     list-style-type: none;
+}
+
+/* Dark mode toggle button */
+#darkToggle {
+  appearance: none;
+  width: 60px;
+  height: 30px;
+  background-color: #ccc;
+  border-radius: 30px;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.4s ease;
+}
+
+/* The circle inside the toggle */
+#darkToggle::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 22px;
+  height: 22px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.4s ease;
+}
+
+/* When toggled on */
+#darkToggle:checked {
+  background-color: #333;
+}
+
+/* Move the circle when toggled on */
+#darkToggle:checked::before {
+  transform: translateX(30px);
+}
+
+/* Smooth transition for dark mode */
+body {
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* Dark mode styles triggered by the checkbox */
+body:has(#darkToggle:checked) {
+  background-color: #000;
+  color: #fff;
+}
+
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: help;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 200px;
+  background-color: #222;
+  color: #fff;
+  text-align: left;
+  padding: 6px 10px;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 10;
+  top: 50%;
+  left: 190%;
+  transform: translateY(-50%);
+  opacity: 0;
+  transform-origin: left center;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+/* Show tooltip on hover */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(-50%) scale(1.05);
+}
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(-100%, -50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: transparent #222 transparent transparent;
 }
