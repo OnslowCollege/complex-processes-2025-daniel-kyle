@@ -285,22 +285,39 @@ pub fn rm(
   path: String,
   file_system: FileSystem,
 ) -> FileSystem {
+  let file_position = get_position(path, file_system)
   case string.contains(path, "/") {
     True -> {
-      let file_position = get_position(path, file_system)
       remove_at(file_position, file_system)
     }
     False -> {
-      let before = list.drop(file_system, current_position.outer_index)
+      let split_path = string.split(path, "/")
+
+      let before = list.drop(file_system, current_position.outer_index + 1)
       let after = list.take(before, 1)
+
+      let file = get_at(file_position, file_system)
+
       let inner_list = case list.first(after) {
         Ok(inner_list) -> inner_list
         Error(_) -> [null_item]
       }
 
-      let item_list = list.filter(inner_list, fn(item) { todo })
+      let item_list =
+        list.filter(inner_list, fn(item) {
+          case item.name == file.name {
+            True -> False
+            False -> True
+          }
+        })
+      file_system
     }
   }
+}
+
+pub fn replace_inner_list(outer_index, inner_list, file_system: FileSystem) {
+  let before = list.append
+  let after = list.
 }
 
 pub fn rmdir(
