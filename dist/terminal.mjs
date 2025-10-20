@@ -1,6 +1,6 @@
 "use strict";
 
-import { is_alphanumeric } from "../build/dev/javascript/file_terminal/validation.mjs";
+import { is_alphanumeric } from "../build/dev/javascript/file_terminal/item_operations.mjs";
 
 import { item_delimiter, 
     command_delimiter, 
@@ -13,7 +13,8 @@ import { item_delimiter,
     min_file_size,
     max_file_size,
     move_up_command
-} from "../build/dev/javascript/file_terminal/constants.mjs"; 
+} from "../build/dev/javascript/file_terminal/item_operations.mjs"; 
+
 
 function newElement(text) {
     let ul = document.getElementById("contents"); // Get the <ul>
