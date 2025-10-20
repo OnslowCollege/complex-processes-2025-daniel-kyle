@@ -7,10 +7,14 @@
     
 </head>
 <body>
-    <input type="checkbox" id="darkToggle">
-<label for="darkToggle">Dark Mode</label>
 <h1 id="main-title">Welcome to the file terminal</h1>
+<div class="toggles">
+  <input type="checkbox" id="darkToggle" hidden>
+  <label for="darkToggle" class="toggle-button" id="darkToggleBtn">Dark Mode</label>
 
+  <input type="checkbox" id="accessToggle" hidden>
+  <label for="accessToggle" class="toggle-button" id="accessToggleBtn">Accessibility Mode</label>
+</div>
 
 
 <div id="overview">
@@ -74,21 +78,21 @@ List of commands:
     <div class="command-contents">
   <div class="tooltip">
     <h3 class="command">ls</h3>
-    <span class="tooltiptext">'ls' displays all the files and folders in the current directory.</span>
+    <span class="tooltiptext"> displays all the files and folders in the current directory.</span>
   </div>
 </div>
 
 <div class="command-contents">
   <div class="tooltip">
     <h3 class="command">touch</h3>
-    <span class="tooltiptext">'touch' filename filesize creates a file with a specified size in KB (default 1KB).</span>
+    <span class="tooltiptext"> filename filesize creates a file with a specified size in KB (default 1KB).</span>
   </div>
 </div>
 
 <div class="command-contents">
   <div class="tooltip">
     <h3 class="command">mkdir</h3>
-    <span class="tooltiptext">'mkdir' foldername creates a new folder in the current directory.</span>
+    <span class="tooltiptext"> foldername creates a new folder in the current directory.</span>
   </div>
 </div>
     </div>
@@ -98,7 +102,7 @@ List of commands:
     <div class="command-contents">
       <div class="tooltip">
         <h3 class="command">rm</h3>
-        <span class="tooltiptext">'rm' filename deletes a file in the current folder.</span>
+        <span class="tooltiptext"> filename deletes a file in the current folder.</span>
       </div>
     </div>
 
@@ -107,7 +111,7 @@ List of commands:
     <div class="command-contents">
       <div class="tooltip">
         <h3 class="command">rmdir</h3>
-        <span class="tooltiptext">'rmdir' foldername deletes a folder in the current folder.</span>
+        <span class="tooltiptext"> foldername deletes a folder in the current folder.</span>
       </div>
     </div>
 
@@ -116,7 +120,7 @@ List of commands:
     <div class="command-contents">
       <div class="tooltip">
         <h3 class="command">cd</h3>
-        <span class="tooltiptext">'cd' foldername changes to a folder in the current folder. Use '..' to go up a directory (e.g., cd ..).</span>
+        <span class="tooltiptext"> foldername changes to a folder in the current folder. Use '..' to go up a directory (e.g., cd ..).</span>
       </div>
     </div>
 
