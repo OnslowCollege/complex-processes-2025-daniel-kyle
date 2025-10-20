@@ -21,7 +21,7 @@ function newElement(text) {
     li.textContent = text; // Set its text
     ul.appendChild(li);
 }
-
+    
 const successAudio = new Audio();
 successAudio.src = "http://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/pause.wav"; // Path to the sound file
 

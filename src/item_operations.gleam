@@ -280,44 +280,62 @@ pub fn mkdir(
   }
 }
 
+pub fn replace_inner_list(
+  outer_index: Int,
+  inner_list: List(Item),
+  file_system: FileSystem,
+) {
+  let back_list = list.take(file_system, outer_index)
+  let front_list = list.drop(file_system, outer_index - 1)
+  let before_insertion = list.append(back_list, [inner_list])
+
+  list.append(before_insertion, front_list)
+}
+
 pub fn rm(
   current_position: Position,
   path: String,
   file_system: FileSystem,
 ) -> FileSystem {
-  let file_position = get_position(path, file_system)
   case string.contains(path, "/") {
     True -> {
+      let file_position = get_position(path, file_system)
       remove_at(file_position, file_system)
     }
     False -> {
-      let split_path = string.split(path, "/")
+      // We can say this since the relative path of the file
+      // from its parent directory is just it's name.
+      let file_name = path
 
-      let before = list.drop(file_system, current_position.outer_index + 1)
+      // 
+      let modified_list_outer_index = current_position.outer_index + 1
+
+      // 
+      let before = list.drop(file_system, modified_list_outer_index)
       let after = list.take(before, 1)
 
-      let file = get_at(file_position, file_system)
-
+      // The inner list is still a list in a list [inner_list]
+      // we have to take the first element to get just the inner font.
       let inner_list = case list.first(after) {
         Ok(inner_list) -> inner_list
         Error(_) -> [null_item]
       }
 
-      let item_list =
+      // Keeps all entries in the list except the one with the
+      // name of the file we're removing.
+      let modified_list =
         list.filter(inner_list, fn(item) {
-          case item.name == file.name {
+          case item.name == file_name {
             True -> False
             False -> True
           }
         })
-      file_system
+      io.debug(modified_list)
+
+      // Finally returning the file_system with the file removed.
+      replace_inner_list(modified_list_outer_index, modified_list, file_system)
     }
   }
-}
-
-pub fn replace_inner_list(outer_index, inner_list, file_system: FileSystem) {
-  let before = list.append
-  let after = list.
 }
 
 pub fn rmdir(
@@ -331,7 +349,37 @@ pub fn rmdir(
       remove_at(folder_position, file_system)
     }
     False -> {
-      todo
+      // We can say this since the relative path of the file
+      // from its parent directory is just it's name.
+      let file_name = path
+
+      // 
+      let modified_list_outer_index = current_position.outer_index + 1
+
+      // 
+      let before = list.drop(file_system, modified_list_outer_index)
+      let after = list.take(before, 1)
+
+      // The inner list is still a list in a list [inner_list]
+      // we have to take the first element to get just the inner font.
+      let inner_list = case list.first(after) {
+        Ok(inner_list) -> inner_list
+        Error(_) -> [null_item]
+      }
+
+      // Keeps all entries in the list except the one with the
+      // name of the file we're removing.
+      let modified_list =
+        list.filter(inner_list, fn(item) {
+          case item.name == file_name {
+            True -> False
+            False -> True
+          }
+        })
+      io.debug(modified_list)
+
+      // Finally returning the file_system with the file removed.
+      replace_inner_list(modified_list_outer_index, modified_list, file_system)
     }
   }
 }

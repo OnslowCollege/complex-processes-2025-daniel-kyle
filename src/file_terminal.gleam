@@ -30,7 +30,6 @@ import item_operations.{
 
 //   io.debug(new_big_numbers)
 // }
-import gleam/string
 
 pub fn main() {
   let file_system = [
@@ -50,10 +49,5 @@ pub fn main() {
   //     Item(name: "hellous.txt", size: 5, is_file: True, parent: "excess"),
   //     file_system,
   //   )
-  io.debug(item_operations.touch(
-    Position(0, 0),
-    "/home/cheese.pdf",
-    10,
-    file_system,
-  ))
+  io.debug(item_operations.rm(Position(0, 0), "hello.txt", file_system))
 }
