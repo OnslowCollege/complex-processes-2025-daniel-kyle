@@ -1,10 +1,11 @@
-/* IDs have # classes have . */
-
+/* ===== ID STYLES ===== */
+/* Styling for element with ID 'command' */
 #command {
     border-radius: 1cm;
 }
 
-/* FONT FACES */
+/* ===== FONT FACES ===== */
+/* Custom font face declarations for Helvetica and OpenDyslexic fonts */
 
 @font-face {
   font-family: 'Helvetica';
@@ -20,7 +21,8 @@
   font-style: normal;
 }
 
-/* BASE STYLES */
+/* ===== BASE STYLES ===== */
+/* Basic styling for body and content list */
 
 body {
   background-color: #fafafa;
@@ -29,25 +31,28 @@ body {
   line-height: 1.6;
   margin: 0;
   padding: 0 1rem;
+  /* Smooth transitions for background, text color, and font changes */
   transition: background-color 0.4s ease, color 0.4s ease, font-family 0.4s ease;
 }
 
 #contents {
-  list-style: none;
-  padding-left: 0;
+  list-style: none; /* Remove default list bullets */
+  padding-left: 0;  /* Remove default left padding */
 }
 
-/* TOGGLE BUTTONS CONTAINER */
+/* ===== TOGGLE BUTTONS CONTAINER ===== */
+/* Flex container for toggle buttons with spacing and alignment */
 
 .toggles {
   display: flex;
-  gap: 1.5rem;
-  align-items: center;
+  gap: 1.5rem; /* Space between toggle buttons */
+  align-items: center; /* Vertically center items */
   margin: 1.5rem 0 2rem;
-  justify-content: flex-start;
+  justify-content: flex-start; /* Align buttons to the left */
 }
 
-/* TOGGLE BUTTONS BASE */
+/* ===== TOGGLE BUTTONS BASE ===== */
+/* Base styling for toggle buttons */
 
 .toggle-button {
   padding: 0.65rem 1.5rem;
@@ -58,41 +63,79 @@ body {
   font-weight: 600;
   font-family: 'Helvetica', Arial, sans-serif;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  transition: background-color 0.35s cubic-bezier(0.4, 0, 0.2, 1), 
-              color 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-              box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  user-select: none;
+  background: linear-gradient(135deg, #3a3a3a 0%, #2a2a2a 100%);
+  /* Smooth transform, shadow, and background transitions */
+  transition: transform 0.2s ease, box-shadow 0.3s ease, background 0.3s ease;
+  user-select: none; /* Disable text selection */
 }
 
-/* DARK MODE BUTTON */
+/* ===== DARK MODE BUTTON ===== */
+/* Specific styles for dark mode toggle button */
 
 #darkToggleBtn {
-  background-color: #3a3a3a;
+  background: linear-gradient(135deg, #3a3a3a 0%, #2a2a2a 100%);
   color: #f0f0f0;
   box-shadow: 0 4px 12px rgba(58, 58, 58, 0.4);
 }
 
-#darkToggle:checked + #darkToggleBtn {
-  background-color: #ffda44;
-  color: #1a1a1a;
-  box-shadow: 0 0 14px 3px rgba(255, 218, 68, 0.7);
+/* Hover and active states for dark and accessibility toggle buttons */
+#darkToggleBtn:hover, #accessToggleBtn:hover {
+  transform: translateY(-2px); /* Slight lift on hover */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4); /* Stronger shadow on hover */
 }
 
-/* ACCESSIBILITY MODE BUTTON */
+#darkToggleBtn:active, #accessToggleBtn:active {
+  transform: translateY(0); /* Reset position on click */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow on active */
+}
+
+/* Checked state styling for dark mode toggle */
+#darkToggle:checked + #darkToggleBtn {
+  background: linear-gradient(135deg, #ffda44 0%, #ffc107 100%);
+  color: #1a1a1a;
+  box-shadow: 0 0 14px 3px rgba(255, 218, 68, 0.7); /* Glowing effect */
+}
+
+/* ===== ACCESSIBILITY MODE BUTTON ===== */
+/* Specific styles for accessibility toggle button */
 
 #accessToggleBtn {
-  background-color: #0078d4;
+  background: linear-gradient(135deg, #0078d4 0%, #005a9e 100%);
   color: #fff;
   box-shadow: 0 4px 12px rgba(0, 120, 212, 0.4);
 }
 
+/* Checked state styling for accessibility toggle */
 #accessToggle:checked + #accessToggleBtn {
-  background-color: #00c875;
+  background: linear-gradient(135deg, #00c875 0%, #00a85a 100%);
   color: #fff;
-  box-shadow: 0 0 14px 3px rgba(0, 200, 117, 0.7);
+  box-shadow: 0 0 14px 3px rgba(0, 200, 117, 0.7); /* Glowing effect */
+}
+/* Accessibility mode active */
+body.accessibility,
+body.accessibility .toggle-button,
+body.accessibility .command-contents,
+body.accessibility .command-contents span.command-text,
+body.accessibility .command-contents .tooltiptext,
+body.accessibility #command-input input[type="submit"] {
+    font-family: 'OpenDyslexic', Arial, sans-serif !important;
+    letter-spacing: 0.03em !important;
+    line-height: 1.5 !important;
 }
 
-/* CONTENT BOXES */
+/* Scale buttons slightly on hover in accessibility mode */
+body.accessibility .toggle-button:hover,
+body.accessibility #command-input input[type="submit"]:hover {
+    transform: scale(1.05) !important;
+}
+
+/* Slightly enlarge command-contents on hover */
+body.accessibility .command-contents:hover {
+    transform: scale(1.02) !important;
+}
+
+/* ===== CONTENT BOXES ===== */
+/* Styling for command content boxes */
 
 .command-contents {
   background-color: #ffffff;
@@ -102,15 +145,19 @@ body {
   margin: 1rem 0;
   color: #2c2c2c;
   box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+  /* Smooth transitions for background, color, border, and shadow */
   transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.3s ease;
-  cursor: default;
+  cursor: default; /* Default cursor on hover */
+  position: relative; /* added for tooltip positioning */
 }
 
+/* Hover effect to increase shadow depth */
 .command-contents:hover {
   box-shadow: 0 8px 20px rgba(0,0,0,0.12);
 }
 
-/* DARK MODE CONTENT BOXES */
+/* ===== DARK MODE CONTENT BOXES ===== */
+/* Adjust content boxes for dark mode when dark toggle is checked */
 
 body:has(#darkToggle:checked) .command-contents {
   background-color: #1e1e1e;
@@ -119,64 +166,103 @@ body:has(#darkToggle:checked) .command-contents {
   box-shadow: 0 1px 8px rgba(0,0,0,0.6);
 }
 
-/* HOVER COLORS PER BOX */
+/* ===== HOVER COLORS PER BOX ===== */
+/* Unique background colors on hover for each content box (1 through 7) */
 
 .command-contents:nth-of-type(1):hover {
-  background-color: #ffdbad; /* warm orange tint */
+  background-color: #72FDAC; /* warm orange tint */
 }
 .command-contents:nth-of-type(2):hover {
-  background-color: #d9c8b0; /* tan */
+  background-color: #FFDD75; /* tan */
 }
 .command-contents:nth-of-type(3):hover {
-  background-color: #b6d6f8; /* soft blue */
+  background-color: #FF68B6; /* soft blue */
 }
 .command-contents:nth-of-type(4):hover {
-  background-color: #f7c4c0; /* light red/pink */
+  background-color: #78C4FF; /* light red/pink */
 }
 .command-contents:nth-of-type(5):hover {
-  background-color: #d9c9e8; /* soft purple */
+  background-color: #9EE0BB; /* soft purple */
 }
 .command-contents:nth-of-type(6):hover {
-  background-color: #c7e6c8; /* soft green */
+  background-color: #B0F09A; /* light teal */
+}
+.command-contents:nth-of-type(7):hover {
+  background-color: #C2FF78; /* soft green */
 }
 
-/* DARK MODE HOVER COLORS (slightly deeper shades) */
+/* ===== DARK MODE HOVER COLORS WITH WHITE TEXT GLOW ===== */
+/* Enhanced hover styles for dark mode with glowing colored shadows and white text */
 
 body:has(#darkToggle:checked) .command-contents:nth-of-type(1):hover {
-  background-color: #cfa13a;
-}
-body:has(#darkToggle:checked) .command-contents:nth-of-type(2):hover {
-  background-color: #b89c74;
-}
-body:has(#darkToggle:checked) .command-contents:nth-of-type(3):hover {
-  background-color: #5e9fdb;
-}
-body:has(#darkToggle:checked) .command-contents:nth-of-type(4):hover {
-  background-color: #b75d58;
-}
-body:has(#darkToggle:checked) .command-contents:nth-of-type(5):hover {
-  background-color: #8e6dbf;
-}
-body:has(#darkToggle:checked) .command-contents:nth-of-type(6):hover {
-  background-color: #6aa96e;
+    background-color: #029D43;
+    box-shadow: 0 0 15px 5px #02D466; /* Green glow */
+    color: #ffffff !important;
+    /* White glowing text shadow */
+    text-shadow: 0 0 8px #ffffff, 0 0 12px #ffffff, 0 0 16px #ffffff;
 }
 
-/* DARK MODE BODY */
+body:has(#darkToggle:checked) .command-contents:nth-of-type(2):hover {
+    background-color: #9F7700;
+    box-shadow: 0 0 15px 5px #FFC845; /* Yellow glow */
+    color: #ffffff !important;
+    text-shadow: 0 0 8px #ffffff, 0 0 12px #ffffff, 0 0 16px #ffffff;
+}
+
+body:has(#darkToggle:checked) .command-contents:nth-of-type(3):hover {
+    background-color: #97004E;
+    box-shadow: 0 0 15px 5px #FF3399; /* Pink glow */
+    color: #ffffff !important;
+    text-shadow: 0 0 8px #ffffff, 0 0 12px #ffffff, 0 0 16px #ffffff;
+}
+
+body:has(#darkToggle:checked) .command-contents:nth-of-type(4):hover {
+    background-color: #005CA3;
+    box-shadow: 0 0 15px 5px #00A0FF; /* Blue glow */
+    color: #ffffff !important;
+    text-shadow: 0 0 8px #ffffff, 0 0 12px #ffffff, 0 0 16px #ffffff;
+}
+
+body:has(#darkToggle:checked) .command-contents:nth-of-type(5):hover {
+    background-color: #277C4C;
+    box-shadow: 0 0 15px 5px #55D37A; /* Green glow */
+    color: #ffffff !important;
+    text-shadow: 0 0 8px #ffffff, 0 0 12px #ffffff, 0 0 16px #ffffff;
+}
+
+body:has(#darkToggle:checked) .command-contents:nth-of-type(6):hover {
+    background-color: #359116;
+    box-shadow: 0 0 15px 5px #7CFF34; /* Bright green glow */
+    color: #ffffff !important;
+    text-shadow: 0 0 8px #ffffff, 0 0 12px #ffffff, 0 0 16px #ffffff;
+}
+
+body:has(#darkToggle:checked) .command-contents:nth-of-type(7):hover {
+    background-color: #5AA300;
+    box-shadow: 0 0 15px 5px #A0FF57; /* Light green glow */
+    color: #ffffff !important;
+    text-shadow: 0 0 8px #ffffff, 0 0 12px #ffffff, 0 0 16px #ffffff;
+}
+
+/* ===== DARK MODE BODY ===== */
+/* Overall body styling for dark mode */
 
 body:has(#darkToggle:checked) {
   background-color: #121212;
   color: #eaeaea;
 }
 
-/* ACCESSIBILITY MODE */
+/* ===== ACCESSIBILITY MODE ===== */
+/* Apply dyslexia-friendly font and spacing when accessibility toggle is checked */
 
 body:has(#accessToggle:checked) {
   font-family: 'OpenDyslexic', Arial, sans-serif !important;
-  letter-spacing: 0.03em;
-  line-height: 1.75;
+  letter-spacing: 0.03em; /* Slightly increased letter spacing for readability */
+  line-height: 1.75;     /* Increased line height */
 }
 
-/* BOTH DARK & ACCESSIBILITY ON */
+/* ===== BOTH DARK & ACCESSIBILITY ON ===== */
+/* Combine dark mode and accessibility styles */
 
 body:has(#darkToggle:checked):has(#accessToggle:checked) {
   background-color: #121212;
@@ -184,55 +270,185 @@ body:has(#darkToggle:checked):has(#accessToggle:checked) {
   font-family: 'OpenDyslexic', Arial, sans-serif !important;
 }
 
-/* TOOLTIP STYLING */
+/* ===== TOOLTIP STYLING ===== */
+/* Tooltip container and text styling */
 
-.tooltip {
-  position: relative;
-  display: inline-block;
-  cursor: help;
+/* ===== COMMAND BOXES WITH TOOLTIP INSIDE ===== */
+.command-contents {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.5rem 1rem; /* default small size */
+  font-size: 1rem;
   font-weight: 500;
-  color: #555;
+  font-family: 'Helvetica', Arial, sans-serif;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(200, 200, 200, 0.2);
+  border-radius: 16px;
+  color: #2c2c2c;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  backdrop-filter: blur(10px);
+  border: none;
+  outline: none;
+  max-width: 250px;
+  width: fit-content; /* shrink to content */
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  min-height: 3rem;
+  transition: all 0.3s ease;
 }
 
-.tooltip .tooltiptext {
-  visibility: hidden;
-  width: 220px;
-  background-color: #333;
-  color: #f0f0f0;
-  text-align: left;
-  padding: 0.5rem 0.75rem;
-  border-radius: 8px;
-  position: absolute;
-  z-index: 1000;
-  top: 50%;
-  left: 190%;
-  transform: translateY(-50%);
+/* Expand box on hover */
+.command-contents:hover {
+  padding: 1rem 1.5rem;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  background: rgba(255,255,255,0.12);
+}
+
+/* Text inside (main command) hidden by default */
+.command-contents span.command-text {
   opacity: 0;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  transform-origin: left center;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  max-width: 0;
+  overflow: hidden;
+  display: inline-block;
+  transition: opacity 0.3s ease, max-width 0.3s ease;
+}
+
+/* Show text on hover */
+.command-contents:hover span.command-text {
+  opacity: 1;
+  max-width: 200px; /* adjust to text length */
+}
+
+/* Tooltip text inside the box */
+.command-contents .tooltiptext {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  width: 100%;
   font-size: 0.9rem;
   line-height: 1.3;
-  pointer-events: none;
+  padding: 0.25rem 0;
+  transition: opacity 0.3s ease, max-height 0.3s ease;
+  display: block;
+}
+
+/* Show tooltip on hover */
+.command-contents:hover .tooltiptext {
+  opacity: 1;
+  max-height: 100px; /* enough for tooltip content */
+}
+
+/* ===== TEXT INPUT FIELD ===== */
+/* Styling for text input inside the command form */
+
+#command-input input[type="text"] {
+  width: 100%;
+  max-width: 600px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-family: 'Courier New', monospace;
+  border: 2px solid #d1d1d1;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #222;
+  margin-bottom: 1rem;
+  /* Smooth transitions for border, shadow, and background */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.4s ease;
+}
+
+/* Focus styles for text input */
+#command-input input[type="text"]:focus {
+  outline: none;
+  border-color: #0078d4; /* Blue border on focus */
+  box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.1); /* Subtle glow */
+}
+
+/* Dark mode styles for text input */
+body:has(#darkToggle:checked) #command-input input[type="text"] {
+  background-color: #1e1e1e;
+  color: #eaeaea;
+  border-color: #444;
+}
+
+/* Dark mode focus styles for text input */
+body:has(#darkToggle:checked) #command-input input[type="text"]:focus {
+  border-color: #ffda44; /* Yellow border on focus */
+  box-shadow: 0 0 0 3px rgba(255, 218, 68, 0.2); /* Yellow glow */
+}
+
+/* ===== SUBMIT BUTTON ===== */
+/* Styling for submit button in the command input form */
+
+#command-input input[type="submit"] {
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: 'Helvetica', Arial, sans-serif;
+  background: linear-gradient(135deg, #0078d4 0%, #005a9e 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 120, 212, 0.3);
+  /* Smooth transform, shadow, and background transitions */
+  transition: transform 0.2s ease, box-shadow 0.3s ease, background 0.3s ease;
   user-select: none;
 }
 
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-  opacity: 1;
-  transform: translateY(-50%) scale(1.08);
-  pointer-events: auto;
+/* Hover effect for submit button */
+#command-input input[type="submit"]:hover {
+  transform: translateY(-2px); /* Slight lift */
+  box-shadow: 0 6px 20px rgba(0, 120, 212, 0.4); /* Stronger shadow */
+  background: linear-gradient(135deg, #0086f0 0%, #0078d4 100%);
 }
 
-.tooltip .tooltiptext::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translate(-100%, -50%);
-  border-width: 7px;
-  border-style: solid;
-  border-color: transparent #333 transparent transparent;
+/* Active (pressed) state for submit button */
+#command-input input[type="submit"]:active {
+  transform: translateY(0); /* Reset position */
+  box-shadow: 0 2px 8px rgba(0, 120, 212, 0.3); /* Subtle shadow */
 }
 
-/* END OF FILE */
+/* ===== DARK MODE SUBMIT BUTTON ===== */
+/* Adjust submit button colors and shadows for dark mode */
+
+body:has(#darkToggle:checked) #command-input input[type="submit"] {
+  background: linear-gradient(135deg, #ffda44 0%, #ffc107 100%);
+  color: #1a1a1a;
+  box-shadow: 0 4px 12px rgba(255, 218, 68, 0.4);
+}
+
+/* Hover effect for dark mode submit button */
+body:has(#darkToggle:checked) #command-input input[type="submit"]:hover {
+  background: linear-gradient(135deg, #ffe66d 0%, #ffda44 100%);
+  box-shadow: 0 6px 20px rgba(255, 218, 68, 0.5);
+  transform: translateY(-2px);
+}
+
+/* Active state for dark mode submit button */
+body:has(#darkToggle:checked) #command-input input[type="submit"]:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(255, 218, 68, 0.4);
+}
+#current-path {
+  font-family: monospace;
+  background: rgba(255,255,255,0.1);
+  padding: 8px 12px;
+  border-radius: 8px;
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #72FDAC;
+}
+#contents li {
+  padding: 5px 10px;
+  transition: background 0.2s ease-in-out;
+}
+#contents li:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+
+/* ===== END OF FILE ===== */
