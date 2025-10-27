@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <script src="https://kit.fontawesome.com/5c5db2e3f1.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../styles/styles.css">
     <script type="module" src="../dist/terminal.mjs" defer></script>
     
@@ -70,62 +71,56 @@ List of commands:
 <!-- This div contains all of the boxes of commands. -->
 
 <div id="commands">
+  <div class="command-contents" data-command="ls">
+    <div class="tooltip">
+      <i class="fa-solid fa-folder-open"></i>
+      <h3 class="command">ls</h3>
+      <span class="tooltiptext"> displays all the files and folders in the current directory.</span>
+    </div>
+  </div>
 
-    <!-- Each of these divs contain all the contents of each command.
-     You won't need to worry about these divs as they're only used when you want to move blocks of content in specific positions
-     which isn't happening. -->
+  <div class="command-contents" data-command="touch example.txt 5">
+    <div class="tooltip">
+      <i class="fa-solid fa-file-circle-plus"></i>
+      <h3 class="command">touch</h3>
+      <span class="tooltiptext"> filename filesize creates a file with a specified size in KB (default 1KB).</span>
+    </div>
+  </div>
 
-    <div class="command-contents">
-  <div class="tooltip">
-    <h3 class="command">ls</h3>
-    <span class="tooltiptext"> displays all the files and folders in the current directory.</span>
+  <div class="command-contents" data-command="mkdir newfolder">
+    <div class="tooltip">
+      <i class="fa-solid fa-folder-plus"></i>
+      <h3 class="command">mkdir</h3>
+      <span class="tooltiptext"> foldername creates a new folder in the current directory.</span>
+    </div>
+  </div>
+
+  <div class="command-contents" data-command="rm example.txt">
+    <div class="tooltip">
+      <i class="fa-solid fa-file-circle-minus"></i>
+      <h3 class="command">rm</h3>
+      <span class="tooltiptext"> filename deletes a file in the current folder.</span>
+    </div>
+  </div>
+
+  <div class="command-contents" data-command="rmdir oldfolder">
+    <div class="tooltip">
+      <i class="fa-solid fa-folder-minus"></i>
+      <h3 class="command">rmdir</h3>
+      <span class="tooltiptext"> foldername deletes a folder in the current folder.</span>
+    </div>
+  </div>
+
+  <div class="command-contents" data-command="cd ..">
+    <div class="tooltip">
+      <i class="fa-solid fa-arrow-right-to-bracket"></i>
+      <h3 class="command">cd</h3>
+      <span class="tooltiptext"> foldername changes to a folder in the current folder. Use '..' to go up a directory (e.g., cd ..).</span>
+    </div>
   </div>
 </div>
 
-<div class="command-contents">
-  <div class="tooltip">
-    <h3 class="command">touch</h3>
-    <span class="tooltiptext"> filename filesize creates a file with a specified size in KB (default 1KB).</span>
-  </div>
-</div>
-
-<div class="command-contents">
-  <div class="tooltip">
-    <h3 class="command">mkdir</h3>
-    <span class="tooltiptext"> foldername creates a new folder in the current directory.</span>
-  </div>
-</div>
-    </div>
-
-
-
-    <div class="command-contents">
-      <div class="tooltip">
-        <h3 class="command">rm</h3>
-        <span class="tooltiptext"> filename deletes a file in the current folder.</span>
-      </div>
-    </div>
-
-
-
-    <div class="command-contents">
-      <div class="tooltip">
-        <h3 class="command">rmdir</h3>
-        <span class="tooltiptext"> foldername deletes a folder in the current folder.</span>
-      </div>
-    </div>
-
-
-
-    <div class="command-contents">
-      <div class="tooltip">
-        <h3 class="command">cd</h3>
-        <span class="tooltiptext"> foldername changes to a folder in the current folder. Use '..' to go up a directory (e.g., cd ..).</span>
-      </div>
-    </div>
-
-</div>
-
+<div id="command-results"></div>
 
 <!-- This is the form element which is how the user enters a command into the program.
  the label is the text above the box. The box could be made bigger and the text made to pop. -->
@@ -142,9 +137,203 @@ List of commands:
 <h2>You're currently in the 
     <span id="directory"></span>
 directory</h2>
+<h2 id="current-path"></h2>
 <ul id="contents">
     
+
 </ul>
 
+<script>
+  // Handle command buttons and add interactive boxes for rm, rmdir, cd commands
+  document.querySelectorAll('.command-contents').forEach(button => {
+    button.addEventListener('click', () => {
+      const command = button.getAttribute('data-command');
+      const input = document.querySelector('input[name="command-input"]');
+      if (!input) return;
+
+      // For rm, rmdir, and cd commands, show interactive boxes to select target
+      const cmd = command.split(' ')[0];
+      if (cmd === 'rm' || cmd === 'rmdir' || cmd === 'cd') {
+        // Clear any existing interactive box
+        const existingBox = document.getElementById('interactive-box');
+        if (existingBox) existingBox.remove();
+
+        // Create interactive box
+        const box = document.createElement('div');
+        box.id = 'interactive-box';
+        box.style.position = 'fixed';
+        box.style.bottom = '20px';
+        box.style.left = '20px';
+        box.style.maxHeight = '300px';
+        box.style.overflowY = 'auto';
+        box.style.backgroundColor = 'rgba(0,0,0,0.8)';
+        box.style.color = '#72FDAC';
+        box.style.border = '1px solid #72FDAC';
+        box.style.borderRadius = '8px';
+        box.style.padding = '10px';
+        box.style.fontFamily = 'monospace';
+        box.style.zIndex = '1000';
+        box.style.minWidth = '200px';
+
+        const title = document.createElement('div');
+        title.textContent = `Select target for ${cmd}:`;
+        title.style.marginBottom = '8px';
+        title.style.fontWeight = 'bold';
+        box.appendChild(title);
+
+        // Assuming currentFolder and its children are accessible globally
+        if (typeof currentFolder !== 'undefined' && currentFolder && Array.isArray(currentFolder.children)) {
+          // Filter children based on command type
+          let targets = [];
+          if (cmd === 'rm') {
+            targets = currentFolder.children.filter(c => !(c instanceof FolderNode));
+          } else if (cmd === 'rmdir') {
+            targets = currentFolder.children.filter(c => c instanceof FolderNode);
+          } else if (cmd === 'cd') {
+            targets = currentFolder.children.filter(c => c instanceof FolderNode);
+            // Also add option to move up directory
+            const upOption = document.createElement('div');
+            upOption.textContent = '.. (go up one directory)';
+            upOption.style.cursor = 'pointer';
+            upOption.style.padding = '4px 8px';
+            upOption.style.borderBottom = '1px solid #72FDAC';
+            upOption.addEventListener('click', () => {
+              input.value = 'cd ..';
+              if (typeof processCommand === 'function') processCommand('cd ..');
+              box.remove();
+            });
+            box.appendChild(upOption);
+          }
+
+          if (targets.length === 0) {
+            const noTargets = document.createElement('div');
+            noTargets.textContent = 'No targets available.';
+            box.appendChild(noTargets);
+          } else {
+            targets.forEach(target => {
+              const targetDiv = document.createElement('div');
+              targetDiv.textContent = target.name;
+              targetDiv.style.cursor = 'pointer';
+              targetDiv.style.padding = '4px 8px';
+              targetDiv.style.borderBottom = '1px solid #72FDAC';
+              targetDiv.addEventListener('click', () => {
+                input.value = `${cmd} ${target.name}`;
+                if (typeof processCommand === 'function') processCommand(input.value);
+                box.remove();
+              });
+              box.appendChild(targetDiv);
+            });
+          }
+        } else {
+          const noFolder = document.createElement('div');
+          noFolder.textContent = 'No folder data available.';
+          box.appendChild(noFolder);
+        }
+
+        // Append box to body
+        document.body.appendChild(box);
+      } else {
+        // For other commands, just fill input and optionally process
+        input.value = command;
+        if (typeof processCommand === 'function') {
+          processCommand(command);
+        }
+      }
+    });
+  });
+
+  // Create a reusable info box for file details
+  const infoBox = document.createElement('div');
+  infoBox.id = 'info-box';
+  infoBox.style.position = 'fixed';
+  infoBox.style.bottom = '20px';
+  infoBox.style.right = '20px';
+  infoBox.style.padding = '15px 20px';
+  infoBox.style.background = 'rgba(255,255,255,0.1)';
+  infoBox.style.border = '1px solid rgba(255,255,255,0.2)';
+  infoBox.style.borderRadius = '8px';
+  infoBox.style.backdropFilter = 'blur(10px)';
+  infoBox.style.color = '#72FDAC';
+  infoBox.style.display = 'none';
+  infoBox.style.maxWidth = '300px';
+  infoBox.style.fontFamily = 'monospace';
+  document.body.appendChild(infoBox);
+
+  function showFileInfo(file, folder) {
+    infoBox.innerHTML = `
+      <strong>📄 File Details</strong><br>
+      Name: ${file.name}<br>
+      Size: ${file.size} KB<br>
+      Path: ${folder.path}/${file.name}
+    `;
+    infoBox.style.display = 'block';
+    setTimeout(() => infoBox.style.display = 'none', 4000);
+  }
+
+  // Improved folder display with file detail click support
+  function displayChildren(folder) {
+    const contentsEl = document.getElementById("contents");
+    const pathEl = document.getElementById("current-path");
+    if (!contentsEl || !pathEl) return;
+
+    pathEl.textContent = folder.path;
+    contentsEl.innerHTML = "";
+
+    folder.children.forEach(child => {
+      const li = document.createElement("li");
+      const isFolder = child instanceof FolderNode;
+      li.textContent = `${isFolder ? "📁" : "📄"} ${child.name} (${child.size} KB)`;
+      li.style.cursor = "pointer";
+
+      if (isFolder) {
+        li.addEventListener("click", () => {
+          currentFolder = child;
+          displayChildren(currentFolder);
+          document.getElementById("directory").textContent = currentFolder.name;
+        });
+      } else {
+        li.addEventListener("click", () => {
+          showFileInfo(child, folder);
+        });
+      }
+
+      contentsEl.appendChild(li);
+    });
+  }
+
+  // Integrate command results display with processCommand if it exists
+  // Wrap original processCommand if present to append results in #command-results
+  if (typeof processCommand === 'function') {
+    const originalProcessCommand = processCommand;
+    const commandResultsEl = document.getElementById('command-results');
+
+    window.processCommand = function(command) {
+      // Clear previous results
+      if (commandResultsEl) {
+        commandResultsEl.innerHTML = '';
+      }
+
+      // Call original processCommand and capture result if any
+      const result = originalProcessCommand(command);
+
+      // If result is string or array of strings, display them
+      if (commandResultsEl && result) {
+        if (typeof result === 'string') {
+          commandResultsEl.textContent = result;
+        } else if (Array.isArray(result)) {
+          const ul = document.createElement('ul');
+          result.forEach(line => {
+            const li = document.createElement('li');
+            li.textContent = line;
+            ul.appendChild(li);
+          });
+          commandResultsEl.appendChild(ul);
+        }
+      }
+
+      return result;
+    };
+  }
+</script>
 </body>
 </html>
