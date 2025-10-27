@@ -450,5 +450,37 @@ body:has(#darkToggle:checked) #command-input input[type="submit"]:active {
   background: rgba(255,255,255,0.15);
 }
 
+.command-contents {
+  position: relative;
+}
 
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: rgba(0,0,0,0.9);
+  border: 1px solid #72FDAC;
+  border-radius: 8px;
+  padding: 5px;
+  min-width: 150px;
+  font-family: monospace;
+  color: #72FDAC;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  display: none; /* hide by default */
+  z-index: 1000;
+}
+
+.command-contents:hover .dropdown {
+  display: block; /* show on hover */
+}
+
+.dropdown-item {
+  padding: 5px 8px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #72FDAC;
+  color: black;
+}
 /* ===== END OF FILE ===== */
