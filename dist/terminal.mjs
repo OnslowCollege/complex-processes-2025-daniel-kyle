@@ -14,14 +14,6 @@ import { item_delimiter,
     max_file_size,
     move_up_command
 } from "../build/dev/javascript/file_terminal/item_operations.mjs"; 
-
-
-function newElement(text) {
-    let ul = document.getElementById("contents"); // Get the <ul>
-    let li = document.createElement("li"); // Create a new <li>
-    li.textContent = text; // Set its text
-    ul.appendChild(li);
-}
     
 const successAudio = new Audio();
 successAudio.src = "http://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/pause.wav"; // Path to the sound file
@@ -177,6 +169,14 @@ function removeItemFromFolder(slicedCommand, folder, isFile) {
         console.log(`${itemType} does not exist.`);
     }
 }
+
+function newElement(text) {
+    let ul = document.getElementById("contents"); // Get the <ul>
+    let li = document.createElement("li"); // Create a new <li>
+    li.textContent = text; // Set its text
+    ul.appendChild(li);
+}
+
 // Make this a gleam function
 /**
  *
@@ -275,6 +275,7 @@ function processCommand(command) {
     let fullItemName = slicedCommand[1];
     let ItemSize = slicedCommand[2];
     switch (startCommand) {
+
         case "touch":
             // The minimum and maximum command lengths for the touch command
             const validTouchLengths = [2, 3];
