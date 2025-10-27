@@ -30,30 +30,14 @@ import item_operations.{
 
 //   io.debug(new_big_numbers)
 // }
-import gleam/string
 
 pub fn main() {
-  let file_system = [
-    [Item(name: "home", size: 5, is_file: False, parent: "")],
-    [
-      Item(name: "hello.txt", size: 5, is_file: True, parent: "home"),
-      Item(name: "excess", size: 5, is_file: False, parent: "home"),
-    ],
-    [
-      Item(name: "helloyou.txt", size: 5, is_file: True, parent: "excess"),
-      Item(name: "helloagain.txt", size: 5, is_file: True, parent: "excess"),
-    ],
-  ]
+  let file_system = item_operations.starting_file_system
   // let new_file_system =
   //   insert_sublist_at(
   //     Position(1, 0),
   //     Item(name: "hellous.txt", size: 5, is_file: True, parent: "excess"),
   //     file_system,
-  //   )
-  io.debug(item_operations.touch(
-    Position(0, 0),
-    "/home/cheese.pdf",
-    10,
-    file_system,
-  ))
+  //   )`
+  io.debug(item_operations.get_child_names(Position(0, 0), file_system))
 }

@@ -1,7 +1,7 @@
 // Updated terminal.mjs with integrated and fixed displayChildren, file info box, and command handling.
 "use strict";
 
-import { is_alphanumeric } from "../build/dev/javascript/file_terminal/validation.mjs";
+import { is_alphanumeric } from "../build/dev/javascript/file_terminal/item_operations.mjs";
 
 import { item_delimiter, 
     command_delimiter, 
@@ -265,6 +265,7 @@ function processCommand(command) {
     let ItemSize = slicedCommand[2];
 
     switch (startCommand) {
+
         case "touch":
             {
                 const validTouchLengths = [2,3];
