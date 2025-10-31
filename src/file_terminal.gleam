@@ -1,9 +1,6 @@
 import gleam/io
-import gleam/list
 
-import item_operations.{
-  type FileSystem, type InnerList, Item, Position, get_position, remove_at,
-}
+import item_operations
 
 // pub fn main() {
 //   let file_system = [
@@ -39,5 +36,5 @@ pub fn main() {
   //     Item(name: "hellous.txt", size: 5, is_file: True, parent: "excess"),
   //     file_system,
   //   )`
-  io.debug(item_operations.get_child_names(Position(0, 0), file_system))
+  item_operations.cd("music", item_operations.Position(0, 0), file_system)
 }

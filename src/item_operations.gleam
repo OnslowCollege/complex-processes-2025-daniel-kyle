@@ -271,6 +271,17 @@ pub fn replace_inner_list(
   list.append(before_insertion, front_list)
 }
 
+pub fn get_inner_index(name: String, inner_list: List(Item)) -> Int {
+  // Inner index
+  list.index_fold(inner_list, 0, fn(acc, item, idx) {
+    acc
+    + case item.name == name {
+      True -> idx
+      False -> 0
+    }
+  })
+}
+
 pub fn get_inner_list_at(
   outer_index: Int,
   file_system: FileSystem,
@@ -287,8 +298,6 @@ pub fn get_inner_list_at(
     Ok(inner_list) -> inner_list
     Error(_) -> []
   }
-  io.debug("target_inner_list")
-  io.debug(target_inner_list)
 }
 
 pub fn get_child_file_names(
@@ -328,14 +337,18 @@ pub fn get_child_folder_names(
   io.debug(child_folder_names)
 }
 
-pub fn get_child_names(
+pub fn get_child_names_in(
   position: Position,
   file_system: FileSystem,
 ) -> List(String) {
   let children_index = position.outer_index + 1
   let children_list = get_inner_list_at(children_index, file_system)
+  let parent_name = get_item_at(position, file_system).name
 
-  list.map(children_list, fn(child) { child.name })
+  let valid_children =
+    list.filter(children_list, fn(child) { child.parent == parent_name })
+
+  list.map(valid_children, fn(child) { child.name })
 }
 
 pub fn get_item_name(item: Item) {
@@ -372,7 +385,7 @@ pub fn rm(
 
       let inner_list = get_inner_list_at(child_outer_index, file_system)
 
-      case in_inner_list(file_name, inner_list) {
+      case is_in_inner_list(file_name, inner_list) {
         False -> file_system
         True -> {
           case string.contains(file_name, extension_delimiter) {
@@ -432,7 +445,7 @@ pub fn rmdir(
 
       let inner_list = get_inner_list_at(child_outer_index, file_system)
 
-      case in_inner_list(folder_name, inner_list) {
+      case is_in_inner_list(folder_name, inner_list) {
         False -> file_system
         True -> {
           case string.contains(folder_name, extension_delimiter) {
@@ -462,7 +475,7 @@ pub fn rmdir(
   }
 }
 
-pub fn in_inner_list(name: String, inner_list: List(Item)) -> Bool {
+pub fn is_in_inner_list(name: String, inner_list: List(Item)) -> Bool {
   let valid_items =
     list.filter(inner_list, fn(current_item) { current_item.name == name })
 
@@ -487,19 +500,11 @@ pub fn get_position(item_path: String, file_system: FileSystem) -> Position {
   io.debug("Inner List: ")
   io.debug(inner_list)
 
-  case in_inner_list(name, inner_list) {
+  case is_in_inner_list(name, inner_list) {
     // Returns an invalid position.
     False -> invalid_position
     True -> {
-      let inner_index = {
-        list.index_fold(inner_list, 0, fn(acc, item, idx) {
-          acc
-          + case item.name == name {
-            True -> idx
-            False -> 0
-          }
-        })
-      }
+      let inner_index = get_inner_index(name, inner_list)
 
       // Returns the position of the item.
       Position(outer_index, inner_index)
@@ -523,14 +528,7 @@ pub fn get_parent_position(item_path: String, file_system: FileSystem) {
 
   let inner_list = get_inner_list_at(parent_outer_index, file_system)
 
-  let inner_index = {
-    list.index_fold(inner_list, 0, fn(_, item, idx) {
-      case item.parent == name {
-        True -> idx
-        False -> 0
-      }
-    })
-  }
+  let inner_index = get_inner_index(name, inner_list)
 
   // Returns the position of the parent.
   let position = Position(parent_outer_index, inner_index)
@@ -577,31 +575,41 @@ pub const starting_position: Position = Position(0, 0)
 // The move_up command for cd.
 pub fn move_up(
   command_parameter: String,
-  parent_position: Position,
+  current_position: Position,
   file_system: FileSystem,
 ) {
   case command_parameter == move_up_command {
     False -> {
-      io.debug(parent_position)
-      parent_position
+      io.debug(current_position)
+      current_position
     }
     True -> {
-      let parent_outer_index = parent_position.outer_index - 1
+      let parent_outer_index = current_position.outer_index - 1
 
-      let item = get_item_at(parent_position, file_system)
-      let new_position = case item.parent {
-        // If you cannot move up nothing happens.
-        "" -> parent_position
-        _ -> Position(parent_outer_index, parent_position.inner_index)
+      case parent_outer_index < 0 {
+        True -> current_position
+        False -> {
+          let current_item: Item = get_item_at(current_position, file_system)
+          let parent_name = current_item.parent
+          let parent_inner_list =
+            get_inner_list_at(parent_outer_index, file_system)
+          let parent_inner_index =
+            get_inner_index(parent_name, parent_inner_list)
+          let new_position = case parent_name {
+            // If you cannot move up nothing happens.
+            "" -> current_position
+            _ -> Position(parent_outer_index, parent_inner_index)
+          }
+          io.debug(new_position)
+        }
       }
-      io.debug(new_position)
     }
   }
 }
 
 pub fn cd(
   path: String,
-  parent_position: Position,
+  current_position: Position,
   file_system: FileSystem,
 ) -> Position {
   case string.contains(path, "/") {
@@ -609,29 +617,36 @@ pub fn cd(
       get_position(path, file_system)
     }
     False -> {
-      let outer_index = parent_position.outer_index + 1
-      let inner_list = get_inner_list_at(outer_index, file_system)
+      let child_outer_index = current_position.outer_index + 1
+      let inner_list = get_inner_list_at(child_outer_index, file_system)
 
-      let name = path
+      case child_outer_index < 0 {
+        True -> {
+          // Return current position
+          current_position
+        }
+        False -> {
+          let name = path
 
-      let inner_index = {
-        list.index_fold(inner_list, 0, fn(acc, item, idx) {
-          acc
-          + case item.name == name {
-            True -> idx
-            False -> 0
+          case is_in_inner_list(name, inner_list) {
+            False -> current_position
+            True -> {
+              let child_inner_index = get_inner_index(name, inner_list)
+              io.debug("Inner index: " <> int.to_string(child_inner_index))
+
+              // Return the position of the folder we want to cd into.
+              let child_position =
+                Position(child_outer_index, child_inner_index)
+              let new_item = get_item_at(child_position, file_system)
+
+              // Makes sure the item we went into is a folder.
+              case new_item.is_file {
+                True -> current_position
+                False -> child_position
+              }
+            }
           }
-        })
-      }
-
-      // Return the position of the folder we want to cd into.
-      let new_position = Position(outer_index, inner_index)
-      let new_item = get_item_at(new_position, file_system)
-
-      // Makes sure the item we went into is a folder.
-      case new_item.is_file {
-        True -> parent_position
-        False -> new_position
+        }
       }
     }
   }

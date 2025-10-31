@@ -2,7 +2,7 @@
 
 // Imports from gleam.
 import * as itemOperations from "../build/dev/javascript/file_terminal/item_operations.mjs"
-import { string } from "../build/dev/javascript/gleam_stdlib/gleam_stdlib.mjs"
+// import { string } from "../build/dev/javascript/gleam_stdlib/gleam_stdlib.mjs"
 
 function newElement(text) {
     let ul = document.getElementById("contents"); // Get the <ul>
@@ -45,7 +45,7 @@ function displayChildren(position) {
     // The spacing characters seperating the file/folder name and it's details.
     const spacer = " ";
     document.getElementById("contents").innerHTML = ""; // Clear the list
-    for (let child_name of itemOperations.get_child_names(position, fileSystem)) {
+    for (let child_name of itemOperations.get_child_names_in(position, fileSystem)) {
         // Makes the prefix 'dir' if the child is a folder.
         // The spaces between the file/folder name and the details.
         let spaces = defaultSpaces - child_name.length - 1;
@@ -58,9 +58,29 @@ function displayChildren(position) {
 }
 displayChildren(currentPosition);
 
-let currentFolderName = itemOperations.get_item_name(itemOperations.get_item_at(currentPosition))
-document.getElementById("directory").innerHTML = currentFolderName;
-console.log("Current folder name: ", currentFolderName)
+let currentDirectory = itemOperations.get_item_at(currentPosition, fileSystem)
+let currentDirectoryName = itemOperations.get_item_name(currentDirectory)
+
+// Debug: inspect values and types
+console.log("currentDirectory:", currentDirectory)
+console.log("currentDirectoryName (raw):", currentDirectoryName)
+console.log("typeof currentDirectoryName:", typeof currentDirectoryName)
+
+// Safe DOM update
+const dirEl = document.getElementById("directory")
+if (dirEl) {
+  // prefer textContent to avoid HTML injection and ensure string
+  dirEl.textContent = String(currentDirectoryName)
+} else {
+  console.warn("Element #directory not found in DOM")
+}
+
+function onError() {
+        console.log("Invalid input")
+        errorAudio.play()
+        // play error sound
+    }
+
 /**
  * 
  * @param full_command - The full string command the user inputs into the website.
@@ -95,12 +115,6 @@ function processCommand(full_command) {
     // Define new position for later.
     let newPosition
 
-    function onError() {
-        console.log("Invalid input")
-        errorAudio.play()
-        // play error sound
-    }
-
     // Switch case allows every command_type to correspond to the 
     // functions and code that command needs.
     switch (command_type) {
@@ -110,6 +124,7 @@ function processCommand(full_command) {
             // then there's an error and our program logs
             // that an error occured.
             if (size == NaN) {
+                onError()
                 break
             }
 
@@ -117,6 +132,7 @@ function processCommand(full_command) {
             if (fileSystem === oldFileSystem) {
                 onError()
             }
+            successAudio.play()
             break
 
         case "mkdir":
@@ -125,6 +141,7 @@ function processCommand(full_command) {
             if (fileSystem === oldFileSystem) {
                 onError()
             }
+            successAudio.play()
             break
 
         case "rm":
@@ -133,6 +150,7 @@ function processCommand(full_command) {
             if (fileSystem === oldFileSystem) {
                 onError()
             }
+            successAudio.play()
             break
 
         case "rmdir":
@@ -141,16 +159,18 @@ function processCommand(full_command) {
                 onError()
 
             }
+            successAudio.play()
             break
 
         case "cd":
-            if (path.includes() ) {
+            if (path.includes(itemOperations.move_up_command)) {
                 newPosition = itemOperations.move_up(path, currentPosition, fileSystem)
                 if (currentPosition === newPosition) {
                     onError()
 
                 } else {
                     currentPosition = newPosition
+                    successAudio.play()
                 }
             } else {
                 newPosition = itemOperations.cd(path, currentPosition, fileSystem)
@@ -159,17 +179,17 @@ function processCommand(full_command) {
 
                 } else {
                     currentPosition = newPosition
+                    successAudio.play()
                 }
             }
-            
             break
         default:
             onError()
             break;
     }
     displayChildren(currentPosition);
-    currentFolderName = itemOperations.get_item_name(itemOperations.get_item_at(currentPosition))
-    document.getElementById("directory").innerHTML = currentFolderName;
+    let currentDirectory = itemOperations.get_item_at(currentPosition, fileSystem)
+    let currentDirectoryName = itemOperations.get_item_name(currentDirectory)
+    console.log(currentDirectoryName)
+    document.getElementById("directory").innerHTML = currentDirectoryName;
 }
-processCommand("cd documents")
-console.log(currentPosition)

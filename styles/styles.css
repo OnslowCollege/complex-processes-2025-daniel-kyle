@@ -483,4 +483,9 @@ body:has(#darkToggle:checked) #command-input input[type="submit"]:active {
   background-color: #72FDAC;
   color: black;
 }
+
+#directory {
+  color:#029D43
+}
+
 /* ===== END OF FILE ===== */
