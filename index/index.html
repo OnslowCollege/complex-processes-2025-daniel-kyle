@@ -79,7 +79,7 @@ List of commands:
     </div>
   </div>
 
-  <div class="command-contents" data-command="touch example.txt 5">
+  <div class="command-contents" data-command="touch">
     <div class="tooltip">
       <i class="fa-solid fa-file-circle-plus"></i>
       <h3 class="command">touch</h3>
@@ -87,7 +87,7 @@ List of commands:
     </div>
   </div>
 
-  <div class="command-contents" data-command="mkdir newfolder">
+  <div class="command-contents" data-command="mkdir">
     <div class="tooltip">
       <i class="fa-solid fa-folder-plus"></i>
       <h3 class="command">mkdir</h3>
@@ -151,7 +151,6 @@ document.querySelectorAll('.command-contents').forEach(button => {
     const dropdown = document.createElement('div');
     dropdown.classList.add('dropdown');
 
-    // Determine targets
     let targets = [];
     if (typeof currentFolder !== 'undefined' && currentFolder && Array.isArray(currentFolder.children)) {
       if (cmd === 'rm') {
@@ -161,7 +160,6 @@ document.querySelectorAll('.command-contents').forEach(button => {
       }
     }
 
-    // Add "up" option for cd
     if (cmd === 'cd') {
       const upOption = document.createElement('div');
       upOption.textContent = '..';
@@ -194,6 +192,48 @@ document.querySelectorAll('.command-contents').forEach(button => {
     }
 
     button.appendChild(dropdown);
+  }
+
+  // Inline input box for touch and mkdir
+  if (cmd === 'touch' || cmd === 'mkdir') {
+    button.addEventListener('click', e => {
+      e.stopPropagation();
+
+      // Remove any existing inline input
+      const existingInput = button.querySelector('.inline-input');
+      if (existingInput) {
+        existingInput.remove();
+      }
+
+      // Create inline input box
+      const inputDiv = document.createElement('div');
+      inputDiv.classList.add('inline-input');
+      inputDiv.style.marginTop = '5px';
+
+      const inputField = document.createElement('input');
+      inputField.type = 'text';
+      inputField.placeholder = cmd === 'touch' ? 'filename.ext size' : 'folder name';
+      inputDiv.appendChild(inputField);
+
+      const submitBtn = document.createElement('button');
+      submitBtn.textContent = 'Submit';
+      submitBtn.style.marginLeft = '5px';
+      inputDiv.appendChild(submitBtn);
+
+      submitBtn.addEventListener('click', () => {
+        const val = inputField.value.trim();
+        if (!val) return;
+
+        const fullCommand = `${cmd} ${val}`;
+        document.querySelector('input[name="command-input"]').value = fullCommand;
+        if (typeof processCommand === 'function') processCommand(fullCommand);
+
+        inputDiv.remove();
+      });
+
+      button.appendChild(inputDiv);
+      inputField.focus();
+    });
   }
 });
 </script>

@@ -240,6 +240,24 @@ document.querySelectorAll('.command-contents').forEach(button => {
             case 'cd':
                 displayCommandOptions(currentFolder, false, 'cd'); // show folders to navigate
                 break;
+            case 'ls':
+                // Show all files and folders in current directory
+                displayChildren(currentFolder);
+                break;
+            case 'touch':
+                // Prompt user for file name and create file
+                const newFileName = prompt("Enter new file name (e.g. file.txt):");
+                if (newFileName) {
+                    processCommand(`touch|${newFileName}`);
+                }
+                break;
+            case 'mkdir':
+                // Prompt user for folder name and create folder
+                const newFolderName = prompt("Enter new folder name:");
+                if (newFolderName) {
+                    processCommand(`mkdir|${newFolderName}`);
+                }
+                break;
             default:
                 processCommand(command); // normal commands like touch/mkdir
         }
